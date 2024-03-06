@@ -1,12 +1,12 @@
 package rspsi.client.config;
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class Varp {
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("varp.dat"));
+    public static void unpackConfig(Archive archive) {
+        Stream stream = new Stream(archive.getEntry("varp.dat"));
         anInt702 = 0;
         int cacheSize = stream.readUnsignedWord();
         if (cache == null)

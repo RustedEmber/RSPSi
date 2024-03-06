@@ -7,7 +7,7 @@ import rspsi.client.NodeSubList;
 import rspsi.client.client;
 import rspsi.client.sign.signlink;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -84,8 +84,8 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
                 }
                 for (int k1 = 0; k1 < expectedSize; k1 += inputStream.read(abyte0, k1 + i1, expectedSize - k1)) ;
                 if (expectedSize + completedSize >= abyte0.length && current != null) {
-                    if (clientInstance.decompressors[0] != null)
-                        clientInstance.decompressors[current.dataType + 1].method234(abyte0.length, abyte0, current.ID);
+                    if (clientInstance.cache != null)
+                        clientInstance.cache.putFile(current.dataType + 1, current.ID, abyte0);
                     if (!current.incomplete && current.dataType == 3) {
                         current.incomplete = true;
                         current.dataType = 93;
@@ -113,12 +113,12 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
         }
     }
 
-    public void start(StreamLoader streamLoader, client client1) {
+    public void start(Archive archive, client client1) {
         String as[] = {
                 "model_version", "anim_version", "midi_version", "map_version"
         };
         for (int i = 0; i < 4; i++) {
-            byte abyte0[] = streamLoader.getDataForName(as[i]);
+            byte abyte0[] = archive.getEntry(as[i]);
             int j = abyte0.length / 2;
             Stream stream = new Stream(abyte0);
             versions[i] = new int[j];
@@ -132,7 +132,7 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
                 "model_crc", "anim_crc", "midi_crc", "map_crc"
         };
         for (int k = 0; k < 4; k++) {
-            byte abyte1[] = streamLoader.getDataForName(as1[k]);
+            byte abyte1[] = archive.getEntry(as1[k]);
             int i1 = abyte1.length / 4;
             Stream stream_1 = new Stream(abyte1);
             crcs[k] = new int[i1];
@@ -141,7 +141,7 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
 
         }
 
-        byte abyte2[] = streamLoader.getDataForName("model_index");
+        byte abyte2[] = archive.getEntry("model_index");
         int j1 = versions[0].length;
         modelIndices = new byte[j1];
         for (int k1 = 0; k1 < j1; k1++)
@@ -150,7 +150,7 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
             else
                 modelIndices[k1] = 0;
 
-        abyte2 = streamLoader.getDataForName("map_index");
+        abyte2 = archive.getEntry("map_index");
         Stream stream2 = new Stream(abyte2);
         j1 = abyte2.length / 7;
         mapIndices1 = new int[j1];
@@ -164,14 +164,14 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
             mapIndices4[i2] = stream2.readUnsignedByte();
         }
 
-        abyte2 = streamLoader.getDataForName("anim_index");
+        abyte2 = archive.getEntry("anim_index");
         stream2 = new Stream(abyte2);
         j1 = abyte2.length / 2;
         anIntArray1360 = new int[j1];
         for (int j2 = 0; j2 < j1; j2++)
             anIntArray1360[j2] = stream2.readUnsignedWord();
 
-        abyte2 = streamLoader.getDataForName("midi_index");
+        abyte2 = archive.getEntry("midi_index");
         stream2 = new Stream(abyte2);
         j1 = abyte2.length;
         anIntArray1348 = new int[j1];
@@ -285,7 +285,7 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
             while (running) {
                 onDemandCycle++;
                 int i = 20;
-                if (anInt1332 == 0 && clientInstance.decompressors[0] != null)
+                if (anInt1332 == 0 && clientInstance.cache != null)
                     i = 50;
                 try {
                     Thread.sleep(i);
@@ -346,7 +346,7 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
                     loopCycle = 0;
                     statusString = "";
                 }
-                if (clientInstance.loggedIn && socket != null && outputStream != null && (anInt1332 > 0 || clientInstance.decompressors[0] == null)) {
+                if (clientInstance.loggedIn && socket != null && outputStream != null && (anInt1332 > 0 || clientInstance.cache == null)) {
                     writeLoopCycle++;
                     if (writeLoopCycle > 500) {
                         writeLoopCycle = 0;
@@ -370,7 +370,7 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
     }
 
     public void method560(int i, int j) {
-        if (clientInstance.decompressors[0] == null)
+        if (clientInstance.cache == null)
             return;
         if (versions[j][i] == 0)
             return;
@@ -436,11 +436,11 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
     }
 
     public void method563(byte byte0, int i, int j) {
-        if (clientInstance.decompressors[0] == null)
+        if (clientInstance.cache == null)
             return;
         if (versions[i][j] == 0)
             return;
-        byte abyte0[] = clientInstance.decompressors[i + 1].decompress(j);
+        byte abyte0[] = clientInstance.cache.getFile(i + 1, j);
         if (crcMatches(versions[i][j], crcs[i][j], abyte0))
             return;
         fileStatus[i][j] = byte0;
@@ -493,8 +493,8 @@ public final class OnDemandFetcher extends OnDemandFetcherParent
         while (onDemandData != null) {
             waiting = true;
             byte abyte0[] = null;
-            if (clientInstance.decompressors[0] != null)
-                abyte0 = clientInstance.decompressors[onDemandData.dataType + 1].decompress(onDemandData.ID);
+            if (clientInstance.cache != null)
+                abyte0 = clientInstance.cache.getFile(onDemandData.dataType + 1, onDemandData.ID);
             if (!crcMatches(versions[onDemandData.dataType][onDemandData.ID], crcs[onDemandData.dataType][onDemandData.ID], abyte0))
                 abyte0 = null;
             synchronized (aClass19_1370) {

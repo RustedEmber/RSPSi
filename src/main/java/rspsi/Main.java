@@ -8,11 +8,10 @@ package rspsi;
 import java.io.File;
 
 import javax.swing.UIManager;
-import javax.swing.tree.TreePath;
 
 import rspsi.client.*;
 import rspsi.client.graphics.Sprite;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 import rspsi.gui.Workspace;
 import rspsi.io.FileOperations;
 
@@ -93,12 +92,12 @@ public class Main {
     
     public static void setMedia(String dir) {
     	if (dir.equals(""))
-    		Interface.streamLoader_rsi = workspace.streamLoaderForName(4, "2d graphics", "media", workspace.expectedCRCs[4], 40);
+    		Interface.archive_rsi = workspace.streamLoaderForName(4, "2d graphics", "media");
 
     	else if (new File(dir).exists())
     		try {
     	    	System.out.println("Setting media: " + dir);
-    	    	Interface.streamLoader_rsi = new StreamLoader(FileOperations.readFile(dir));
+    	    	Interface.archive_rsi = new Archive(FileOperations.readFile(dir));
     		} catch (Exception e) {
     			e.printStackTrace();
     		}

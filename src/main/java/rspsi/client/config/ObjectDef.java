@@ -6,7 +6,7 @@ import rspsi.client.client;
 import rspsi.client.animable.Model;
 import rspsi.client.cache.OnDemandFetcher;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class ObjectDef {
 
@@ -78,9 +78,9 @@ public final class ObjectDef {
         stream = null;
     }
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        stream = new Stream(streamLoader.getDataForName("loc.dat"));
-        Stream stream = new Stream(streamLoader.getDataForName("loc.idx"));
+    public static void unpackConfig(Archive archive) {
+        stream = new Stream(archive.getEntry("loc.dat"));
+        Stream stream = new Stream(archive.getEntry("loc.idx"));
         int totalObjects = stream.readUnsignedWord();
         streamIndices = new int[totalObjects];
         int i = 2;

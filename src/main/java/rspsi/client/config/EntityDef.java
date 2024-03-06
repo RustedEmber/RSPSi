@@ -5,7 +5,7 @@ import rspsi.client.MRUNodes;
 import rspsi.client.client;
 import rspsi.client.animable.Model;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class EntityDef {
 
@@ -73,9 +73,9 @@ public final class EntityDef {
             return forID(childrenIDs[j]);
     }
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        stream = new Stream(streamLoader.getDataForName("npc.dat"));
-        Stream stream2 = new Stream(streamLoader.getDataForName("npc.idx"));
+    public static void unpackConfig(Archive archive) {
+        stream = new Stream(archive.getEntry("npc.dat"));
+        Stream stream2 = new Stream(archive.getEntry("npc.idx"));
         int totalNPCs = stream2.readUnsignedWord();
         streamIndices = new int[totalNPCs];
         int i = 2;

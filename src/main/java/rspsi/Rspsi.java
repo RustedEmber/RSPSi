@@ -11,7 +11,7 @@ import rspsi.client.config.ItemDef;
 import rspsi.client.graphics.Sprite;
 import rspsi.client.graphics.TextDrawingArea;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 import rspsi.io.FileOperations;
 
 public class Rspsi extends Interface {
@@ -19,7 +19,7 @@ public class Rspsi extends Interface {
 //	public static TextDrawingArea[] tda;
 //	public static StreamLoader streamLoader;
 
-	public Rspsi(TextDrawingArea[] tda, StreamLoader streamLoader) {
+	public Rspsi(TextDrawingArea[] tda, Archive archive) {
 //		Rspsi.tda = tda;
 //		Rspsi.streamLoader = streamLoader;
 
@@ -329,7 +329,7 @@ public class Rspsi extends Interface {
 		if (directories.length > 0 && directories[0] != null
 				&& directories[0] != "" && index.length > 0
 				&& index[0] != -1) {
-			rsi.disabledSprite = cache ? method207(index[0], streamLoader_rsi, directories[0])
+			rsi.disabledSprite = cache ? method207(index[0], archive_rsi, directories[0])
 					: customSpriteLoader(directories[0], index[0]);
 			rsi.disabledSpriteDir = directories[0];
 			rsi.disabledSpriteId = index[0];
@@ -338,7 +338,7 @@ public class Rspsi extends Interface {
 		if (directories.length > 1 && directories[1] != null
 				&& directories[1] != "" && index.length > 1
 				&& index[1] != -1) {
-			rsi.enabledSprite = cache ? method207(index[1], streamLoader_rsi, directories[1])
+			rsi.enabledSprite = cache ? method207(index[1], archive_rsi, directories[1])
 					: customSpriteLoader(directories[1], index[1]);
 			rsi.enabledSpriteDir = directories[1];
 			rsi.enabledSpriteId = index[1];
@@ -347,7 +347,7 @@ public class Rspsi extends Interface {
 		else if (directories.length > 0 && directories[0] != null
 				&& directories[0] != "" && index.length > 1
 				&& index[1] != -1) {
-			rsi.enabledSprite = cache ? method207(index[1], streamLoader_rsi, directories[0])
+			rsi.enabledSprite = cache ? method207(index[1], archive_rsi, directories[0])
 					: customSpriteLoader(directories[0], index[1]);
 			rsi.enabledSpriteDir = directories[0];
 			rsi.enabledSpriteId = index[1];
@@ -602,6 +602,13 @@ public class Rspsi extends Interface {
 
 		FileOperations.writeFile(dir, out);
 		System.out.println("Dump success");
+	}
+
+	public static byte[] toData() {
+		Stream out = parseAll();
+		byte[] data = new byte[out.currentOffset];
+		System.arraycopy(out.buffer, 0, data, 0, out.currentOffset);
+		return data;
 	}
 
 	public static void packToData(String dir) {

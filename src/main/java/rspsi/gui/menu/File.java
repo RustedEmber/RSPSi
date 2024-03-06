@@ -1,10 +1,11 @@
 package rspsi.gui.menu;
 
 import java.awt.event.*;
-import java.io.*;
+import java.io.IOException;
 
 import javax.swing.*;
 
+import com.jagex.cache.Archive;
 import rspsi.*;
 import rspsi.client.*;
 import rspsi.client.stream.Stream;
@@ -88,7 +89,7 @@ public class File {
 					workspace.clearAllInterfaces();
 					byte[] data = FileOperations.readFile(path);
 					//do some checks?
-					Rspsi.unpack(new Stream(data), Rspsi.textDrawingAreas_rsi, Rspsi.streamLoader_rsi);
+					Rspsi.unpack(new Stream(data), Rspsi.textDrawingAreas_rsi, Rspsi.archive_rsi);
 					Main.browseDir = fc.getSelectedFile().getParentFile().getAbsolutePath();
 				}
 
@@ -129,9 +130,14 @@ public class File {
 			JOptionPane.showMessageDialog(workspace, "Nothing Loaded.");
 			return;
 		}
-    	
-    	workspace.promptForNotice("Woops! Sorry but this doesn't work yet.");
-    	
+		try {
+			Archive archive = new Archive(workspace.cache.getFile(0, 3));
+			archive.updateEntry("data", Rspsi.toData());
+			workspace.cache.putFile(0, 3, archive.recompile());
+		} catch (IOException e) {
+			workspace.promptForNotice("Error: " + e.getMessage());
+			e.printStackTrace();
+		}
     }
 
     public void toFile() {

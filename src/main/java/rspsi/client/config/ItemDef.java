@@ -6,7 +6,7 @@ import rspsi.client.graphics.DrawingArea;
 import rspsi.client.graphics.Sprite;
 import rspsi.client.graphics.Texture;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class ItemDef {
 
@@ -35,9 +35,9 @@ public final class ItemDef {
         return flag;
     }
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        stream = new Stream(streamLoader.getDataForName("obj.dat"));
-        Stream stream = new Stream(streamLoader.getDataForName("obj.idx"));
+    public static void unpackConfig(Archive archive) {
+        stream = new Stream(archive.getEntry("obj.dat"));
+        Stream stream = new Stream(archive.getEntry("obj.idx"));
         totalItems = stream.readUnsignedWord();
         streamIndices = new int[totalItems];
         int i = 2;

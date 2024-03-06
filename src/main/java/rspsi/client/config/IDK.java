@@ -2,12 +2,12 @@ package rspsi.client.config;
 
 import rspsi.client.animable.Model;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class IDK {
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("idk.dat"));
+    public static void unpackConfig(Archive archive) {
+        Stream stream = new Stream(archive.getEntry("idk.dat"));
         length = stream.readUnsignedWord();
         if (cache == null)
             cache = new IDK[length];

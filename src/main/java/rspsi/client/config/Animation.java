@@ -2,12 +2,12 @@ package rspsi.client.config;
 
 import rspsi.client.Class36;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class Animation {
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("seq.dat"));
+    public static void unpackConfig(Archive archive) {
+        Stream stream = new Stream(archive.getEntry("seq.dat"));
         int length = stream.readUnsignedWord();
         if (anims == null)
             anims = new Animation[length];

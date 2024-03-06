@@ -3,25 +3,20 @@ package rspsi.client;
 import java.awt.Color;
 
 import rspsi.Main;
-import rspsi.Rspsi;
-import rspsi.client.Class36;
-import rspsi.client.MRUNodes;
-import rspsi.client.TextClass;
-import rspsi.client.client;
 import rspsi.client.animable.Model;
 import rspsi.client.config.EntityDef;
 import rspsi.client.config.ItemDef;
 import rspsi.client.graphics.Sprite;
 import rspsi.client.graphics.TextDrawingArea;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public class Interface {
 
-    public static void unpack(Stream stream, TextDrawingArea textDrawingAreas[], StreamLoader streamLoader_1) {
+    public static void unpack(Stream stream, TextDrawingArea textDrawingAreas[], Archive archive_1) {
         aMRUNodes_sprite = new MRUNodes(50000);
         textDrawingAreas_rsi = textDrawingAreas;
-        streamLoader_rsi = streamLoader_1;
+        archive_rsi = archive_1;
 
         int j = stream.readUnsignedWord();
         interfaceCache = new Interface[j + 22000];
@@ -131,9 +126,9 @@ public class Interface {
                         rsi.spritesX[j2] = stream.readSignedWord();
                         rsi.spritesY[j2] = stream.readSignedWord();
                         String s1 = stream.readString();
-                        if (streamLoader_rsi != null && s1.length() > 0) {
+                        if (archive_rsi != null && s1.length() > 0) {
                             int i5 = s1.lastIndexOf(",");
-                            rsi.sprites[j2] = method207(Integer.parseInt(s1.substring(i5 + 1)), streamLoader_rsi, s1.substring(0, i5));
+                            rsi.sprites[j2] = method207(Integer.parseInt(s1.substring(i5 + 1)), archive_rsi, s1.substring(0, i5));
                             rsi.spritesDir[j2] = s1.substring(0, i5); //custom
                             rsi.spritesId[j2] = Integer.parseInt(s1.substring(i5 + 1)); //custom
                         }
@@ -171,16 +166,16 @@ public class Interface {
             }
             if (rsi.type == 5) {
                 String s = stream.readString();
-                if (streamLoader_rsi != null && s.length() > 0) {
+                if (archive_rsi != null && s.length() > 0) {
                     int i4 = s.lastIndexOf(",");
-                    rsi.disabledSprite = method207(Integer.parseInt(s.substring(i4 + 1)), streamLoader_rsi, s.substring(0, i4));
+                    rsi.disabledSprite = method207(Integer.parseInt(s.substring(i4 + 1)), archive_rsi, s.substring(0, i4));
                     rsi.disabledSpriteDir = s.substring(0, i4); //custom
                     rsi.disabledSpriteId = Integer.parseInt(s.substring(i4 + 1)); //custom
                 }
                 s = stream.readString();
-                if (streamLoader_rsi != null && s.length() > 0) {
+                if (archive_rsi != null && s.length() > 0) {
                     int j4 = s.lastIndexOf(",");
-                    rsi.enabledSprite = method207(Integer.parseInt(s.substring(j4 + 1)), streamLoader_rsi, s.substring(0, j4));
+                    rsi.enabledSprite = method207(Integer.parseInt(s.substring(j4 + 1)), archive_rsi, s.substring(0, j4));
                     rsi.enabledSpriteDir = s.substring(0, j4); //custom
                     rsi.enabledSpriteId = Integer.parseInt(s.substring(j4 + 1)); //custom
                 }
@@ -290,13 +285,13 @@ public class Interface {
         return model;
     }
 
-    protected static Sprite method207(int i, StreamLoader streamLoader, String s) {
+    protected static Sprite method207(int i, Archive archive, String s) {
         long l = (TextClass.method585(s) << 8) + (long) i;
         Sprite sprite = (Sprite) aMRUNodes_sprite.insertFromCache(l);
         if (sprite != null)
             return sprite;
         try {
-            sprite = new Sprite(streamLoader, s, i);
+            sprite = new Sprite(archive, s, i);
             aMRUNodes_sprite.removeFromCache(sprite, l);
         } catch (OutOfMemoryError ex) {
         	Main.workspace.pushMessage("Sprite(s) missing from cache!", 1, "[RSPSi]");
@@ -362,7 +357,7 @@ public class Interface {
 
     public static Interface interfaceCache[], lastCache[];
     public static TextDrawingArea[] textDrawingAreas_rsi;
-    public static StreamLoader streamLoader_rsi;
+    public static Archive archive_rsi;
     public static MRUNodes aMRUNodes_sprite;
     public static final MRUNodes aMRUNodes_model = new MRUNodes(30);
     public int anInt208;
@@ -814,7 +809,7 @@ public class Interface {
 			if (disabledSpriteDir.startsWith("[custom]"))
 				this.disabledSprite = customSpriteLoader(disabledSpriteDir.replace("[custom]", ""), disabledSpriteId);
 			else
-				this.disabledSprite = method207(disabledSpriteId, streamLoader_rsi, disabledSpriteDir);
+				this.disabledSprite = method207(disabledSpriteId, archive_rsi, disabledSpriteDir);
 	}
 
 	public int getDisabledSpriteId() {
@@ -827,7 +822,7 @@ public class Interface {
 			if (disabledSpriteDir.startsWith("[custom]"))
 				this.disabledSprite = customSpriteLoader(disabledSpriteDir.replace("[custom]", ""), disabledSpriteId);
 			else
-				this.disabledSprite = method207(disabledSpriteId, streamLoader_rsi, disabledSpriteDir);
+				this.disabledSprite = method207(disabledSpriteId, archive_rsi, disabledSpriteDir);
 	}
 
 //	public Sprite getEnabledSprite() {
@@ -848,7 +843,7 @@ public class Interface {
 			if (enabledSpriteDir.startsWith("[custom]"))
 				this.enabledSprite = customSpriteLoader(enabledSpriteDir.replace("[custom]", ""), enabledSpriteId);
 			else
-				this.enabledSprite = method207(enabledSpriteId, streamLoader_rsi, enabledSpriteDir);
+				this.enabledSprite = method207(enabledSpriteId, archive_rsi, enabledSpriteDir);
 	}
 
 	public int getEnabledSpriteId() {
@@ -861,7 +856,7 @@ public class Interface {
 			if (enabledSpriteDir.startsWith("[custom]"))
 				this.enabledSprite = customSpriteLoader(enabledSpriteDir.replace("[custom]", ""), enabledSpriteId);
 			else
-				this.enabledSprite = method207(enabledSpriteId, streamLoader_rsi, enabledSpriteDir);
+				this.enabledSprite = method207(enabledSpriteId, archive_rsi, enabledSpriteDir);
 	}
 
 	public int getDisabledMediaType() {

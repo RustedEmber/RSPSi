@@ -3,7 +3,7 @@ package rspsi.client.graphics;// Decompiled by Jad v1.5.8f. Copyright 2001 Pavel
 // Decompiler options: packimports(3) 
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 import java.awt.*;
 import java.awt.image.PixelGrabber;
@@ -59,9 +59,9 @@ public final class Sprite extends DrawingArea {
         }
     }
 
-    public Sprite(StreamLoader streamLoader, String s, int i) {
-        Stream stream = new Stream(streamLoader.getDataForName(s + ".dat"));
-        Stream stream_1 = new Stream(streamLoader.getDataForName("index.dat"));
+    public Sprite(Archive archive, String s, int i) {
+        Stream stream = new Stream(archive.getEntry(s + ".dat"));
+        Stream stream_1 = new Stream(archive.getEntry("index.dat"));
         stream_1.currentOffset = stream.readUnsignedWord();
         anInt1444 = stream_1.readUnsignedWord();
         anInt1445 = stream_1.readUnsignedWord();

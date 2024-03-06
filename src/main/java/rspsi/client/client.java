@@ -2,11 +2,11 @@ package rspsi.client;// Decompiled by Jad v1.5.8f. Copyright 2001 Pavel Kouznets
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
+import com.jagex.cache.Cache;
 import rspsi.Main;
-import rspsi.client.Interface;
 import rspsi.client.animable.*;
 import rspsi.client.anticheat.MouseDetection;
-import rspsi.client.cache.Decompressor;
+import com.jagex.cache.Index;
 import rspsi.client.cache.OnDemandData;
 import rspsi.client.cache.OnDemandFetcher;
 import rspsi.client.config.*;
@@ -17,13 +17,12 @@ import rspsi.client.net.ISAACRandomGen;
 import rspsi.client.net.RSSocket;
 import rspsi.client.sign.signlink;
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 import java.applet.AppletContext;
 import java.awt.*;
-import java.io.DataInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
@@ -83,80 +82,6 @@ public class client extends RSApplet {
     private void stopMidi() {
         signlink.midifade = 0;
         signlink.midi = "stop";
-    }
-
-    private void connectServer() {
-/*      int j = 5;
-        expectedCRCs[8] = 0;
-        int k = 0;
-        while(expectedCRCs[8] == 0)
-        {
-            String s = "Unknown problem";
-            drawLoadingText(20, (byte)4, "Connecting to web server");
-            try
-            {
-                DataInputStream datainputstream = openJagGrabInputStream("crc" + (int)(Math.random() * 99999999D) + "-" + 317);
-                Stream class30_sub2_sub2 = new Stream(new byte[40], 891);
-                datainputstream.readFully(class30_sub2_sub2.buffer, 0, 40);
-                datainputstream.close();
-                for(int i1 = 0; i1 < 9; i1++)
-                    expectedCRCs[i1] = class30_sub2_sub2.readDWord();
-
-                int j1 = class30_sub2_sub2.readDWord();
-                int k1 = 1234;
-                for(int l1 = 0; l1 < 9; l1++)
-                    k1 = (k1 << 1) + expectedCRCs[l1];
-
-                if(j1 != k1)
-                {
-                    s = "checksum problem";
-                    expectedCRCs[8] = 0;
-                }
-            }
-            catch(EOFException _ex)
-            {
-                s = "EOF problem";
-                expectedCRCs[8] = 0;
-            }
-            catch(IOException _ex)
-            {
-                s = "connection problem";
-                expectedCRCs[8] = 0;
-            }
-            catch(Exception _ex)
-            {
-                s = "logic problem";
-                expectedCRCs[8] = 0;
-                if(!signlink.reporterror)
-                    return;
-            }
-            if(expectedCRCs[8] == 0)
-            {
-                k++;
-                for(int l = j; l > 0; l--)
-                {
-                    if(k >= 10)
-                    {
-                        drawLoadingText(10, (byte)4, "Game updated - please reload page");
-                        l = 10;
-                    } else
-                    {
-                        drawLoadingText(10, (byte)4, s + " - Will retry in " + l + " secs.");
-                    }
-                    try
-                    {
-                        Thread.sleep(1000L);
-                    }
-                    catch(Exception _ex) { }
-                }
-
-                j *= 2;
-                if(j > 60)
-                    j = 60;
-                aBoolean872 = !aBoolean872;
-            }
-        }
- */
     }
 
     private boolean menuHasAddFriend(int j) {
@@ -2041,8 +1966,8 @@ public class client extends RSApplet {
     }
 
     private void loadTitleScreen() {
-        aBackground_966 = new Background(titleStreamLoader, "titlebox", 0);
-        aBackground_967 = new Background(titleStreamLoader, "titlebutton", 0);
+        aBackground_966 = new Background(titleArchive, "titlebox", 0);
+        aBackground_967 = new Background(titleArchive, "titlebutton", 0);
         aBackgroundArray1152s = new Background[12];
         int j = 0;
         try {
@@ -2052,11 +1977,11 @@ public class client extends RSApplet {
         }
         if (j == 0) {
             for (int k = 0; k < 12; k++)
-                aBackgroundArray1152s[k] = new Background(titleStreamLoader, "runes", k);
+                aBackgroundArray1152s[k] = new Background(titleArchive, "runes", k);
 
         } else {
             for (int l = 0; l < 12; l++)
-                aBackgroundArray1152s[l] = new Background(titleStreamLoader, "runes", 12 + (l & 3));
+                aBackgroundArray1152s[l] = new Background(titleArchive, "runes", 12 + (l & 3));
 
         }
         aClass30_Sub2_Sub1_Sub1_1201 = new Sprite(128, 265);
@@ -2172,7 +2097,7 @@ public class client extends RSApplet {
         if (loadingStage == 1) {
             int j = method54();
             if (j != 0 && System.currentTimeMillis() - aLong824 > 0x57e40L) {
-                signlink.reporterror(myUsername + " glcfb " + aLong1215 + "," + j + "," + lowMem + "," + decompressors[0] + "," + onDemandFetcher.getNodeCount() + "," + plane + "," + anInt1069 + "," + anInt1070);
+                signlink.reporterror(myUsername + " glcfb " + aLong1215 + "," + j + "," + lowMem + "," + onDemandFetcher.getNodeCount() + "," + plane + "," + anInt1069 + "," + anInt1070);
                 aLong824 = System.currentTimeMillis();
             }
         }
@@ -2251,7 +2176,7 @@ public class client extends RSApplet {
     }
 
     private void drawLogo() {
-        byte abyte0[] = titleStreamLoader.getDataForName("title.dat");
+        byte abyte0[] = titleArchive.getEntry("title.dat");
         Sprite sprite = new Sprite(abyte0, this);
         aRSImageProducer_1110.initDrawingArea();
         sprite.method346(0, 0);
@@ -2298,7 +2223,7 @@ public class client extends RSApplet {
         sprite.method346(254, -171);
         aRSImageProducer_1115.initDrawingArea();
         sprite.method346(-180, -171);
-        sprite = new Sprite(titleStreamLoader, "logo", 0);
+        sprite = new Sprite(titleArchive, "logo", 0);
         aRSImageProducer_1107.initDrawingArea();
         sprite.drawSprite(382 - sprite.myWidth / 2 - 128, 18);
         sprite = null;
@@ -2778,7 +2703,7 @@ public class client extends RSApplet {
         DrawingArea.setAllPixelsToZero();
         aRSImageProducer_1115 = new RSImageProducer(75, 94, getGameComponent());
         DrawingArea.setAllPixelsToZero();
-        if (titleStreamLoader != null) {
+        if (titleArchive != null) {
 //            drawLogo();
             loadTitleScreen();
         }
@@ -2812,7 +2737,7 @@ public class client extends RSApplet {
         anInt1079 = i;
         aString1049 = s;
         resetImageProducers();
-        if (titleStreamLoader == null) {
+        if (titleArchive == null) {
             super.drawLoadingText(i, s);
             return;
         }
@@ -2906,123 +2831,8 @@ public class client extends RSApplet {
         return true;
     }
 
-    public StreamLoader streamLoaderForName(int i, String s, String s1, int j, int k) {
-        byte abyte0[] = null;
-        int l = 5;
-        try {
-            if (decompressors[0] != null)
-                abyte0 = decompressors[0].decompress(i);
-        }
-        catch (Exception _ex) {
-        }
-        if (abyte0 != null) {
-            //        aCRC32_930.reset();
-            //        aCRC32_930.update(abyte0);
-            //        int i1 = (int)aCRC32_930.getValue();
-            //        if(i1 != j)
-        }
-        if (abyte0 != null)
-            return new StreamLoader(abyte0);
-        int j1 = 0;
-        while (abyte0 == null) {
-            String s2 = "Unknown error";
-            drawLoadingText(k, "Requesting " + s);
-            Object obj = null;
-            try {
-                int k1 = 0;
-                DataInputStream datainputstream = openJagGrabInputStream(s1 + j);
-                byte abyte1[] = new byte[6];
-                datainputstream.readFully(abyte1, 0, 6);
-                Stream stream = new Stream(abyte1);
-                stream.currentOffset = 3;
-                int i2 = stream.read3Bytes() + 6;
-                int j2 = 6;
-                abyte0 = new byte[i2];
-                System.arraycopy(abyte1, 0, abyte0, 0, 6);
-
-                while (j2 < i2) {
-                    int l2 = i2 - j2;
-                    if (l2 > 1000)
-                        l2 = 1000;
-                    int j3 = datainputstream.read(abyte0, j2, l2);
-                    if (j3 < 0) {
-                        s2 = "Length error: " + j2 + "/" + i2;
-                        throw new IOException("EOF");
-                    }
-                    j2 += j3;
-                    int k3 = (j2 * 100) / i2;
-                    if (k3 != k1)
-                        drawLoadingText(k, "Loading " + s + " - " + k3 + "%");
-                    k1 = k3;
-                }
-                datainputstream.close();
-                try {
-                    if (decompressors[0] != null)
-                        decompressors[0].method234(abyte0.length, abyte0, i);
-                }
-                catch (Exception _ex) {
-                    decompressors[0] = null;
-                }
-                /*             if(abyte0 != null)
-                              {
-                                  aCRC32_930.reset();
-                                  aCRC32_930.update(abyte0);
-                                  int i3 = (int)aCRC32_930.getValue();
-                                  if(i3 != j)
-                                  {
-                                      abyte0 = null;
-                                      j1++;
-                                      s2 = "Checksum error: " + i3;
-                                  }
-                              }
-                */
-            }
-            catch (IOException ioexception) {
-                if (s2.equals("Unknown error"))
-                    s2 = "Connection error";
-                abyte0 = null;
-            }
-            catch (NullPointerException _ex) {
-                s2 = "Null error";
-                abyte0 = null;
-                if (!signlink.reporterror)
-                    return null;
-            }
-            catch (ArrayIndexOutOfBoundsException _ex) {
-                s2 = "Bounds error";
-                abyte0 = null;
-                if (!signlink.reporterror)
-                    return null;
-            }
-            catch (Exception _ex) {
-                s2 = "Unexpected error";
-                abyte0 = null;
-                if (!signlink.reporterror)
-                    return null;
-            }
-            if (abyte0 == null) {
-                for (int l1 = l; l1 > 0; l1--) {
-                    if (j1 >= 3) {
-                        drawLoadingText(k, "Game updated - please reload page");
-                        l1 = 10;
-                    } else {
-                        drawLoadingText(k, s2 + " - Retrying in " + l1);
-                    }
-                    try {
-                        Thread.sleep(1000L);
-                    }
-                    catch (Exception _ex) {
-                    }
-                }
-
-                l *= 2;
-                if (l > 60)
-                    l = 60;
-                aBoolean872 = !aBoolean872;
-            }
-
-        }
-        return new StreamLoader(abyte0);
+    public Archive streamLoaderForName(int i, String s, String s1) {
+        return new Archive(cache.getFile(0, i));
     }
 
     private void dropClient() {
@@ -5911,26 +5721,25 @@ public class client extends RSApplet {
             genericLoadingError = true;
             return;
         }
-        if (signlink.cache_dat != null) {
-            for (int i = 0; i < 5; i++)
-                decompressors[i] = new Decompressor(signlink.cache_dat, signlink.cache_idx[i], i + 1);
-
+        try {
+            cache = new Cache(".file_store/.cache/");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
         try {
-            connectServer();
-            titleStreamLoader = streamLoaderForName(1, "title screen", "title", expectedCRCs[1], 25);
-            aTextDrawingArea_1270 = new TextDrawingArea(false, "p11_full", titleStreamLoader);
-            aTextDrawingArea_1271 = new TextDrawingArea(false, "p12_full", titleStreamLoader);
-            chatTextDrawingArea = new TextDrawingArea(false, "b12_full", titleStreamLoader);
-            TextDrawingArea aTextDrawingArea_1273 = new TextDrawingArea(true, "q8_full", titleStreamLoader);
+            titleArchive = streamLoaderForName(1, "title screen", "title");
+            aTextDrawingArea_1270 = new TextDrawingArea(false, "p11_full", titleArchive);
+            aTextDrawingArea_1271 = new TextDrawingArea(false, "p12_full", titleArchive);
+            chatTextDrawingArea = new TextDrawingArea(false, "b12_full", titleArchive);
+            TextDrawingArea aTextDrawingArea_1273 = new TextDrawingArea(true, "q8_full", titleArchive);
 //            drawLogo();
             loadTitleScreen();
-            StreamLoader streamLoader = streamLoaderForName(2, "config", "config", expectedCRCs[2], 30);
-            StreamLoader streamLoader_1 = streamLoaderForName(3, "interface", "interface", expectedCRCs[3], 35);
-            StreamLoader streamLoader_2 = streamLoaderForName(4, "2d graphics", "media", expectedCRCs[4], 40);
-            StreamLoader streamLoader_3 = streamLoaderForName(6, "textures", "textures", expectedCRCs[6], 45);
-            StreamLoader streamLoader_4 = streamLoaderForName(7, "chat system", "wordenc", expectedCRCs[7], 50);
-            StreamLoader streamLoader_5 = streamLoaderForName(8, "sound effects", "sounds", expectedCRCs[8], 55);
+            Archive archive = streamLoaderForName(2, "config", "config");
+            Archive archive_1 = streamLoaderForName(3, "interface", "interface");
+            Archive archive_2 = streamLoaderForName(4, "2d graphics", "media");
+            Archive archive_3 = streamLoaderForName(6, "textures", "textures");
+            Archive archive_4 = streamLoaderForName(7, "chat system", "wordenc");
+            Archive archive_5 = streamLoaderForName(8, "sound effects", "sounds");
             byteGroundArray = new byte[4][104][104];
             intGroundArray = new int[4][105][105];
             worldController = new WorldController(intGroundArray);
@@ -5938,10 +5747,10 @@ public class client extends RSApplet {
                 aClass11Array1230[j] = new Class11();
 
             aClass30_Sub2_Sub1_Sub1_1263 = new Sprite(512, 512);
-            StreamLoader streamLoader_6 = streamLoaderForName(5, "update list", "versionlist", expectedCRCs[5], 60);
+            Archive archive_6 = streamLoaderForName(5, "update list", "versionlist");
             drawLoadingText(60, "Connecting to update server");
             onDemandFetcher = new OnDemandFetcher();
-            onDemandFetcher.start(streamLoader_6, this);
+            onDemandFetcher.start(archive_6, this);
             Class36.method528(onDemandFetcher.getAnimCount());
             Model.method459(onDemandFetcher.getVersionCount(0), onDemandFetcher);
 //            if (!lowMem) {
@@ -6066,105 +5875,105 @@ public class client extends RSApplet {
 //
 //            }
             drawLoadingText(80, "Unpacking media");
-            invBack = new Background(streamLoader_2, "invback", 0);
-            chatBack = new Background(streamLoader_2, "chatback", 0);
-            mapBack = new Background(streamLoader_2, "mapback", 0);
-            backBase1 = new Background(streamLoader_2, "backbase1", 0);
-            backBase2 = new Background(streamLoader_2, "backbase2", 0);
-            backHmid1 = new Background(streamLoader_2, "backhmid1", 0);
+            invBack = new Background(archive_2, "invback", 0);
+            chatBack = new Background(archive_2, "chatback", 0);
+            mapBack = new Background(archive_2, "mapback", 0);
+            backBase1 = new Background(archive_2, "backbase1", 0);
+            backBase2 = new Background(archive_2, "backbase2", 0);
+            backHmid1 = new Background(archive_2, "backhmid1", 0);
             for (int j3 = 0; j3 < 13; j3++)
-                sideIcons[j3] = new Background(streamLoader_2, "sideicons", j3);
+                sideIcons[j3] = new Background(archive_2, "sideicons", j3);
 
-            compass = new Sprite(streamLoader_2, "compass", 0);
-            mapEdge = new Sprite(streamLoader_2, "mapedge", 0);
+            compass = new Sprite(archive_2, "compass", 0);
+            mapEdge = new Sprite(archive_2, "mapedge", 0);
             mapEdge.method345();
             try {
                 for (int k3 = 0; k3 < 100; k3++)
-                    mapScenes[k3] = new Background(streamLoader_2, "mapscene", k3);
+                    mapScenes[k3] = new Background(archive_2, "mapscene", k3);
 
             }
             catch (Exception _ex) {
             }
             try {
                 for (int l3 = 0; l3 < 100; l3++)
-                    mapFunctions[l3] = new Sprite(streamLoader_2, "mapfunction", l3);
+                    mapFunctions[l3] = new Sprite(archive_2, "mapfunction", l3);
 
             }
             catch (Exception _ex) {
             }
             try {
                 for (int i4 = 0; i4 < 20; i4++)
-                    hitMarks[i4] = new Sprite(streamLoader_2, "hitmarks", i4);
+                    hitMarks[i4] = new Sprite(archive_2, "hitmarks", i4);
 
             }
             catch (Exception _ex) {
             }
             try {
                 for (int j4 = 0; j4 < 20; j4++)
-                    headIcons[j4] = new Sprite(streamLoader_2, "headicons", j4);
+                    headIcons[j4] = new Sprite(archive_2, "headicons", j4);
 
             }
             catch (Exception _ex) {
             }
-            mapFlag = new Sprite(streamLoader_2, "mapmarker", 0);
-            mapMarker = new Sprite(streamLoader_2, "mapmarker", 1);
+            mapFlag = new Sprite(archive_2, "mapmarker", 0);
+            mapMarker = new Sprite(archive_2, "mapmarker", 1);
             for (int k4 = 0; k4 < 8; k4++)
-                crosses[k4] = new Sprite(streamLoader_2, "cross", k4);
+                crosses[k4] = new Sprite(archive_2, "cross", k4);
 
-            mapDotItem = new Sprite(streamLoader_2, "mapdots", 0);
-            mapDotNPC = new Sprite(streamLoader_2, "mapdots", 1);
-            mapDotPlayer = new Sprite(streamLoader_2, "mapdots", 2);
-            mapDotFriend = new Sprite(streamLoader_2, "mapdots", 3);
-            mapDotTeam = new Sprite(streamLoader_2, "mapdots", 4);
-            scrollBar1 = new Background(streamLoader_2, "scrollbar", 0);
-            scrollBar2 = new Background(streamLoader_2, "scrollbar", 1);
-            redStone1 = new Background(streamLoader_2, "redstone1", 0);
-            redStone2 = new Background(streamLoader_2, "redstone2", 0);
-            redStone3 = new Background(streamLoader_2, "redstone3", 0);
-            redStone1_2 = new Background(streamLoader_2, "redstone1", 0);
+            mapDotItem = new Sprite(archive_2, "mapdots", 0);
+            mapDotNPC = new Sprite(archive_2, "mapdots", 1);
+            mapDotPlayer = new Sprite(archive_2, "mapdots", 2);
+            mapDotFriend = new Sprite(archive_2, "mapdots", 3);
+            mapDotTeam = new Sprite(archive_2, "mapdots", 4);
+            scrollBar1 = new Background(archive_2, "scrollbar", 0);
+            scrollBar2 = new Background(archive_2, "scrollbar", 1);
+            redStone1 = new Background(archive_2, "redstone1", 0);
+            redStone2 = new Background(archive_2, "redstone2", 0);
+            redStone3 = new Background(archive_2, "redstone3", 0);
+            redStone1_2 = new Background(archive_2, "redstone1", 0);
             redStone1_2.method358();
-            redStone2_2 = new Background(streamLoader_2, "redstone2", 0);
+            redStone2_2 = new Background(archive_2, "redstone2", 0);
             redStone2_2.method358();
-            redStone1_3 = new Background(streamLoader_2, "redstone1", 0);
+            redStone1_3 = new Background(archive_2, "redstone1", 0);
             redStone1_3.method359();
-            redStone2_3 = new Background(streamLoader_2, "redstone2", 0);
+            redStone2_3 = new Background(archive_2, "redstone2", 0);
             redStone2_3.method359();
-            redStone3_2 = new Background(streamLoader_2, "redstone3", 0);
+            redStone3_2 = new Background(archive_2, "redstone3", 0);
             redStone3_2.method359();
-            redStone1_4 = new Background(streamLoader_2, "redstone1", 0);
+            redStone1_4 = new Background(archive_2, "redstone1", 0);
             redStone1_4.method358();
             redStone1_4.method359();
-            redStone2_4 = new Background(streamLoader_2, "redstone2", 0);
+            redStone2_4 = new Background(archive_2, "redstone2", 0);
             redStone2_4.method358();
             redStone2_4.method359();
             for (int l4 = 0; l4 < 2; l4++)
-                modIcons[l4] = new Background(streamLoader_2, "mod_icons", l4);
+                modIcons[l4] = new Background(archive_2, "mod_icons", l4);
 
-            Sprite sprite = new Sprite(streamLoader_2, "backleft1", 0);
+            Sprite sprite = new Sprite(archive_2, "backleft1", 0);
             backLeftIP1 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backleft2", 0);
+            sprite = new Sprite(archive_2, "backleft2", 0);
             backLeftIP2 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backright1", 0);
+            sprite = new Sprite(archive_2, "backright1", 0);
             backRightIP1 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backright2", 0);
+            sprite = new Sprite(archive_2, "backright2", 0);
             backRightIP2 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backtop1", 0);
+            sprite = new Sprite(archive_2, "backtop1", 0);
             backTopIP1 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backvmid1", 0);
+            sprite = new Sprite(archive_2, "backvmid1", 0);
             backVmidIP1 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backvmid2", 0);
+            sprite = new Sprite(archive_2, "backvmid2", 0);
             backVmidIP2 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backvmid3", 0);
+            sprite = new Sprite(archive_2, "backvmid3", 0);
             backVmidIP3 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
-            sprite = new Sprite(streamLoader_2, "backhmid2", 0);
+            sprite = new Sprite(archive_2, "backhmid2", 0);
             backVmidIP2_2 = new RSImageProducer(sprite.myWidth, sprite.myHeight, getGameComponent());
             sprite.method346(0, 0);
             int i5 = (int) (Math.random() * 21D) - 10;
@@ -6179,23 +5988,23 @@ public class client extends RSApplet {
             }
 
             drawLoadingText(83, "Unpacking textures");
-            Texture.unpack(streamLoader_3);
+            Texture.unpack(archive_3);
             Texture.method372(0.80000000000000004D);
             Texture.method367();
             drawLoadingText(86, "Unpacking config");
-            Animation.unpackConfig(streamLoader);
-            ObjectDef.unpackConfig(streamLoader);
-            Flo.unpackConfig(streamLoader);
-            ItemDef.unpackConfig(streamLoader);
-            EntityDef.unpackConfig(streamLoader);
-            IDK.unpackConfig(streamLoader);
-            SpotAnim.unpackConfig(streamLoader);
-            Varp.unpackConfig(streamLoader);
-            VarBit.unpackConfig(streamLoader);
+            Animation.unpackConfig(archive);
+            ObjectDef.unpackConfig(archive);
+            Flo.unpackConfig(archive);
+            ItemDef.unpackConfig(archive);
+            EntityDef.unpackConfig(archive);
+            IDK.unpackConfig(archive);
+            SpotAnim.unpackConfig(archive);
+            Varp.unpackConfig(archive);
+            VarBit.unpackConfig(archive);
             ItemDef.isMembers = isMembers;
             if (!lowMem) {
                 drawLoadingText(90, "Unpacking sounds");
-                byte abyte0[] = streamLoader_5.getDataForName("sounds.dat");
+                byte abyte0[] = archive_5.getEntry("sounds.dat");
                 Stream stream = new Stream(abyte0);
                 Sounds.unpack(stream);
             }
@@ -6205,7 +6014,7 @@ public class client extends RSApplet {
             };
 //            RSInterface.unpack(streamLoader_1, aclass30_sub2_sub1_sub4s, streamLoader_2);
             try {
-				Interface.unpack(new Stream(streamLoader_1.getDataForName("data")), aclass30_sub2_sub1_sub4s, streamLoader_2);
+				Interface.unpack(new Stream(archive_1.getEntry("data")), aclass30_sub2_sub1_sub4s, archive_2);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -6265,7 +6074,7 @@ public class client extends RSApplet {
             }
 
             WorldController.method310(500, 800, 512, 334, ai);
-            Censor.loadConfig(streamLoader_4);
+            Censor.loadConfig(archive_4);
             mouseDetection = new MouseDetection(this);
             startRunnable(mouseDetection, 10);
             Animable_Sub5.clientInstance = this;
@@ -8432,29 +8241,6 @@ public class client extends RSApplet {
         return true;
     }
 
-    private DataInputStream openJagGrabInputStream(String s)
-            throws IOException {
-        //       if(!aBoolean872)
-        //           if(signlink.mainapp != null)
-        //               return signlink.openurl(s);
-        //           else
-        //               return new DataInputStream((new URL(getCodeBase(), s)).openStream());
-        if (aSocket832 != null) {
-            try {
-                aSocket832.close();
-            }
-            catch (Exception _ex) {
-            }
-            aSocket832 = null;
-        }
-        aSocket832 = openSocket(43595);
-        aSocket832.setSoTimeout(10000);
-        java.io.InputStream inputstream = aSocket832.getInputStream();
-        OutputStream outputstream = aSocket832.getOutputStream();
-        outputstream.write(("JAGGRAB /" + s + "\n\n").getBytes());
-        return new DataInputStream(inputstream);
-    }
-
     private void doFlamesDrawing() {
         char c = '\u0100';
         if (anInt1040 > 0) {
@@ -10422,7 +10208,6 @@ public class client extends RSApplet {
         aStream_847 = Stream.create();
         aBoolean848 = true;
         currentExp = new int[Skills.skillsCount];
-        aBoolean872 = false;
         anIntArray873 = new int[5];
         anInt874 = -1;
         aBooleanArray876 = new boolean[5];
@@ -10459,7 +10244,6 @@ public class client extends RSApplet {
         spriteDrawY = -1;
         anIntArray968 = new int[33];
         anIntArray969 = new int[256];
-        decompressors = new Decompressor[5];
         variousSettings = new int[2000];
         aBoolean972 = false;
         anInt975 = 50;
@@ -10498,7 +10282,6 @@ public class client extends RSApplet {
         aBoolean1080 = false;
         friendsList = new String[200];
         inStream = Stream.create();
-        expectedCRCs = new int[9];
         menuActionCmd2 = new int[500];
         menuActionCmd3 = new int[500];
         menuActionID = new int[500];
@@ -10564,7 +10347,6 @@ public class client extends RSApplet {
     public int[] anIntArray828;
     public int[] anIntArray829;
     public volatile boolean aBoolean831;
-    public Socket aSocket832;
     public int loginScreenState;
     public Stream aStream_834;
     public NPC[] npcArray;
@@ -10601,7 +10383,6 @@ public class client extends RSApplet {
     public Background redStone2_4;
     public Sprite mapFlag;
     public Sprite mapMarker;
-    public boolean aBoolean872;
     public final int[] anIntArray873;
     public int anInt874;
     public final boolean[] aBooleanArray876;
@@ -10688,7 +10469,8 @@ public class client extends RSApplet {
     public Background aBackground_967;
     public final int[] anIntArray968;
     public final int[] anIntArray969;
-    public final Decompressor[] decompressors;
+    public Cache cache;
+
     public int variousSettings[];
     public boolean aBoolean972;
     public final int anInt975;
@@ -10777,7 +10559,7 @@ public class client extends RSApplet {
     public String aString1049;
     public static int anInt1051;
     public final int[] anIntArray1052;
-    public StreamLoader titleStreamLoader;
+    public Archive titleArchive;
     public int anInt1054;
     public int anInt1055;
     public NodeList aClass19_1056;
@@ -10812,7 +10594,6 @@ public class client extends RSApplet {
     public int anInt1087;
     public int anInt1088;
     public int anInt1089;
-    public final int[] expectedCRCs;
     public int[] menuActionCmd2;
     public int[] menuActionCmd3;
     public int[] menuActionID;

@@ -3,13 +3,13 @@ package rspsi.client.graphics;// Decompiled by Jad v1.5.8f. Copyright 2001 Pavel
 // Decompiler options: packimports(3) 
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 import java.util.Random;
 
 public final class TextDrawingArea extends DrawingArea {
 
-    public TextDrawingArea(boolean flag, String s, StreamLoader streamLoader) {
+    public TextDrawingArea(boolean flag, String s, Archive archive) {
         aByteArrayArray1491 = new byte[256][];
         anIntArray1492 = new int[256];
         anIntArray1493 = new int[256];
@@ -18,8 +18,8 @@ public final class TextDrawingArea extends DrawingArea {
         anIntArray1496 = new int[256];
         aRandom1498 = new Random();
         aBoolean1499 = false;
-        Stream stream = new Stream(streamLoader.getDataForName(s + ".dat"));
-        Stream stream_1 = new Stream(streamLoader.getDataForName("index.dat"));
+        Stream stream = new Stream(archive.getEntry(s + ".dat"));
+        Stream stream_1 = new Stream(archive.getEntry("index.dat"));
         stream_1.currentOffset = stream.readUnsignedWord() + 4;
         int k = stream_1.readUnsignedByte();
         if (k > 0)

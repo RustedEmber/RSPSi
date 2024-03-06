@@ -1,15 +1,15 @@
 package rspsi.client.config;
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class Censor {
 
-    public static void loadConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("fragmentsenc.txt"));
-        Stream stream_1 = new Stream(streamLoader.getDataForName("badenc.txt"));
-        Stream stream_2 = new Stream(streamLoader.getDataForName("domainenc.txt"));
-        Stream stream_3 = new Stream(streamLoader.getDataForName("tldlist.txt"));
+    public static void loadConfig(Archive archive) {
+        Stream stream = new Stream(archive.getEntry("fragmentsenc.txt"));
+        Stream stream_1 = new Stream(archive.getEntry("badenc.txt"));
+        Stream stream_2 = new Stream(archive.getEntry("domainenc.txt"));
+        Stream stream_3 = new Stream(archive.getEntry("tldlist.txt"));
         readValues(stream, stream_1, stream_2, stream_3);
     }
 

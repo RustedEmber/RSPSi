@@ -1,12 +1,12 @@
 package rspsi.client.config;
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class VarBit {
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("varbit.dat"));
+    public static void unpackConfig(Archive archive) {
+        Stream stream = new Stream(archive.getEntry("varbit.dat"));
         int cacheSize = stream.readUnsignedWord();
         if (cache == null)
             cache = new VarBit[cacheSize];

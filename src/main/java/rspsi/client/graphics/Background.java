@@ -1,13 +1,13 @@
 package rspsi.client.graphics;
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class Background extends DrawingArea {
 
-    public Background(StreamLoader streamLoader, String s, int i) {
-        Stream stream = new Stream(streamLoader.getDataForName(s + ".dat"));
-        Stream stream_1 = new Stream(streamLoader.getDataForName("index.dat"));
+    public Background(Archive archive, String s, int i) {
+        Stream stream = new Stream(archive.getEntry(s + ".dat"));
+        Stream stream_1 = new Stream(archive.getEntry("index.dat"));
         stream_1.currentOffset = stream.readUnsignedWord();
         anInt1456 = stream_1.readUnsignedWord();
         anInt1457 = stream_1.readUnsignedWord();

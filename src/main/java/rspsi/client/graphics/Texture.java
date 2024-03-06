@@ -1,6 +1,6 @@
 package rspsi.client.graphics;
 
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class Texture extends DrawingArea {
 
@@ -58,11 +58,11 @@ public final class Texture extends DrawingArea {
         }
     }
 
-    public static void unpack(StreamLoader streamLoader) {
+    public static void unpack(Archive archive) {
         anInt1473 = 0;
         for (int j = 0; j < 50; j++)
             try {
-                aBackgroundArray1474s[j] = new Background(streamLoader, String.valueOf(j), 0);
+                aBackgroundArray1474s[j] = new Background(archive, String.valueOf(j), 0);
                 if (lowMem && aBackgroundArray1474s[j].anInt1456 == 128)
                     aBackgroundArray1474s[j].method356();
                 else

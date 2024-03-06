@@ -1,12 +1,12 @@
 package rspsi.client.config;
 
 import rspsi.client.stream.Stream;
-import rspsi.client.stream.StreamLoader;
+import com.jagex.cache.Archive;
 
 public final class Flo {
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("flo.dat"));
+    public static void unpackConfig(Archive archive) {
+        Stream stream = new Stream(archive.getEntry("flo.dat"));
         int cacheSize = stream.readUnsignedWord();
         if (cache == null)
             cache = new Flo[cacheSize];
