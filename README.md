@@ -1,17 +1,16 @@
-Instructions
+# Instructions
 Place a standard 317-377 cache (no new model headers etc) in .file_store/.cache/
 
+# Features & what they do.
 
-Features & what they do.
-
-CHATBOX COMMANDS:
+## CHATBOX COMMANDS:
 
 /lockmag - Locks the magnifier at the current x/y of your mouse inside
 the client area
 
-MENU ITEMS:
+## MENU ITEMS:
 
-File Menu
+### File Menu
 
 New - Lets you create a new interface
 
@@ -36,7 +35,7 @@ Export - Export an interface to a .rsi file which you can later import
 
 Exit - \*Duh\* Prompts the editor for exit
 
-Edit Menu
+### Edit Menu
 
 Move - Move an object on an interface
 
@@ -65,7 +64,7 @@ Duplicate - Duplicates the selected object(s) to a specified id
 
 Remove - Removes an object from its container
 
-View Menu
+### View Menu
 
 \[ \] Reference - Whether the referenced image is to be drawn
 
@@ -94,7 +93,7 @@ interface as well as its children if specified
 Export Selected - Lets you export specific objects of an interface which
 you can later import
 
-Tools Menu
+### Tools Menu
 
 \[ \] Magnifier - Whether the magnifier tool is to be shown
 
@@ -108,9 +107,8 @@ Help - Shows a help window
 
 
 
-Credits:
-
-Robin Spud - for being super sexy and helping me out.
-Peter - Reference of his interface editor, basic design layout idea.
-FileChooserDemo2.java - ImagePreview.java
-Advocatus - Gradle Build + Updates
+# Credits:
+* Robin Spud - for being super sexy and helping me out.
+* Peter - Reference of his interface editor, basic design layout idea.
+* FileChooserDemo2.java - ImagePreview.java
+* Advocatus - Gradle Build + Updates
