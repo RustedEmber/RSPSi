@@ -13,13 +13,15 @@ import com.l2fprod.common.propertysheet.Property;
 
 import rspsi.Main;
 import rspsi.Rspsi;
+import rspsi.SuiteLogic;
 import rspsi.client.Interface;
 import rspsi.gui.Workspace;
+import rspsi.io.ChooseImage;
 
 public class Edit {
 
 	private Workspace workspace;
-
+private ChooseImage chooseImage;
 	public Edit(Workspace workspace) {
     	this.workspace = workspace;
 	}
@@ -175,7 +177,11 @@ public class Edit {
 
     	workspace.getPropSheet().update();
     }
+public void media(){
 
+	//new ChooseImage();
+	SuiteLogic.showSelectImage();
+}
     public void font() {
     	if (!doChecks("change font of", 1))
     		return;

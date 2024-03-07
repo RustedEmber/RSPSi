@@ -7,22 +7,24 @@ package rspsi;
 
 import java.io.File;
 
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import rspsi.client.*;
 import rspsi.client.graphics.Sprite;
 import com.jagex.cache.Archive;
 import rspsi.gui.Workspace;
 import rspsi.io.FileOperations;
+import rspsi.util.ToolsUI;
 
 /**
  *
  * @author Benjamin
  */
-public class Main {
-
+public class Main extends JFrame {
+	public static SuiteLogic logic;
     public static Workspace workspace;
-
+	private ToolsUI toolsUI;
+	private JDesktopPane mainPane;
     public static String browseDir = "./";
     public static String referenceDir = "./";
     public static Sprite reference = null;
@@ -32,6 +34,9 @@ public class Main {
     public static boolean shaded = false;
     public static boolean emulating;
     public static boolean magnifierOpen;
+	public ToolsUI getTools() {
+		return toolsUI;
+	}
     public static int region = 0; /** Screen * Inventory * Chatbox * Fullscreen **/
 
     public static int[] editingID = new int[] { -1 };
@@ -67,6 +72,15 @@ public class Main {
             e.printStackTrace();
         }
     }
+	public void addFrame(JInternalFrame frame) {
+		frame.setClosable(true);
+		frame.setResizable(true);
+		frame.setMaximizable(true);
+		frame.setIconifiable(true);
+		frame.setVisible(true);
+		frame.setLocation(250, 120);
+		mainPane.add(frame);
+	}
 
 	public static void load(int id) {
 		Interface rsi = Interface.interfaceCache[id];

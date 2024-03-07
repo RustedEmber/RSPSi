@@ -9,6 +9,7 @@ import rspsi.*;
 import rspsi.client.Interface;
 import rspsi.client.sign.signlink;
 import rspsi.gui.menu.*;
+import rspsi.io.ChooseImage;
 
 public class Menu extends JMenuBar implements ActionListener {
 
@@ -28,6 +29,7 @@ public class Menu extends JMenuBar implements ActionListener {
     	edit = new Edit(workspace);
     	view = new View(workspace);
     	insert = new Insert(workspace);
+
     }
 
 	private JMenu setMenu(JMenu menu, int pos) {
@@ -65,6 +67,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	    			JMenuItem menuItem = new JMenuItem(itemName);
 	    			menuItem.addActionListener(this);
 	    			menu.add(menuItem, itemIndexes[abc]);
+
 	    		} else if (itemType.equals("[SEPE]"))
 	    			menu.insertSeparator(itemIndexes[abc]);
 			}
@@ -115,7 +118,8 @@ public class Menu extends JMenuBar implements ActionListener {
 
             if (cmd.equals("Bounds()"))
             	edit.bounds();
-
+			if (cmd.equals("Media"))
+				edit.media();
             if (cmd.equals("Font"))
             	edit.font();
 
@@ -250,10 +254,12 @@ public class Menu extends JMenuBar implements ActionListener {
     private View view;
     private Insert insert;
 
+	private ChooseImage images;
+
     private static String[] menuNames = new String[] {
     	"[MENU]File", "[MENU]File/Load", "[MENU]File/Save",
     	"[MENU]Edit", "[MENU]Edit/Set", "[MENU]Edit/Layer",
-    	"[MENU]View",
+    	"[MENU]View",			"[MENU]Edit/Media",
     	"[MENU]Interface", "[MENU]Interface/Insert",/* "[MENU]Interface/Insert/Preset Object",*/
     	"[MENU]Tools",/* "[MENU]Tools/Lists",*/
     	"[MENU]Help" };
@@ -270,6 +276,7 @@ public class Menu extends JMenuBar implements ActionListener {
 //    	"[SEPE]Edit/Seperator",
     	"[ITEM]Edit/Move",
     	"[ITEM]Edit/Resize",
+			"[ITEM]Edit/Media",
     	"[SEPE]Edit/Seperator",
 
 				"[ITEM]Edit/Set/Bounds()",
@@ -319,7 +326,7 @@ public class Menu extends JMenuBar implements ActionListener {
     private static int[] itemIndexes = new int[] {
     	0, 1, 0, 1, 2, 0, 1, 2, 4, 5, //File
 
-    	0, 1, 2,/* 3, 4,*/ 0, 1, 2, 0, 1, 2, 3, 4, 5, //Edit
+    	0, 1, 2,/* 3,*/ 4, 0, 1, 2, 0, 1, 2, 3, 4, 5, //Edit
 
     	0, 1, 2, 3, 4, 5, //View
 

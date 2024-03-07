@@ -162,7 +162,39 @@ public class File {
 			}
 		});
     }
+	public void toMedia() {
+		if (Main.topParent == null) {
+			JOptionPane.showMessageDialog(workspace, "Nothing Loaded.");
+			return;
+		} 	try {
 
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	public void toSave() {
+		if (Main.topParent == null) {
+			JOptionPane.showMessageDialog(workspace, "Nothing Loaded.");
+			return;
+		} 	try {
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void toTexture() {
+		if (Main.topParent == null) {
+			JOptionPane.showMessageDialog(workspace, "Nothing Loaded.");
+			return;
+		} 	try {
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
     public void exportRsi(final int type) {
     	if (Main.topParent == null) {
 			JOptionPane.showMessageDialog(workspace, "Nothing Loaded.");
