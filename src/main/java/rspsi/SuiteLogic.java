@@ -253,9 +253,9 @@ public class SuiteLogic {
 	}
 
     public void editModels() {
-        ModelEdit m = new ModelEdit();
-        m.setTitle("Editing model archive");
-        swingComponent.addFrame(m);
+        //ModelEdit m = new ModelEdit();
+       // m.setTitle("Editing model archive");
+       // swingComponent.addFrame(m);
     }
 
     class FileTypeFilter extends javax.swing.filechooser.FileFilter {
