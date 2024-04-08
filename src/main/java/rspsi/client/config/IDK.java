@@ -1,8 +1,8 @@
 package rspsi.client.config;
 
+import com.jagex.cache.Archive;
 import rspsi.client.animable.Model;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
 
 public final class IDK {
 

@@ -6,7 +6,6 @@ import com.jagex.cache.Cache;
 import rspsi.Main;
 import rspsi.client.animable.*;
 import rspsi.client.anticheat.MouseDetection;
-import com.jagex.cache.Index;
 import rspsi.client.cache.OnDemandData;
 import rspsi.client.cache.OnDemandFetcher;
 import rspsi.client.config.*;
@@ -17,7 +16,7 @@ import rspsi.client.net.ISAACRandomGen;
 import rspsi.client.net.RSSocket;
 import rspsi.client.sign.signlink;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
+import rspsi.io.Archive;
 
 import java.applet.AppletContext;
 import java.awt.*;
@@ -2831,8 +2830,8 @@ public class client extends RSApplet {
         return true;
     }
 
-    public Archive streamLoaderForName(int i, String s, String s1) {
-        return new Archive(cache.getFile(0, i));
+    public com.jagex.cache.Archive streamLoaderForName(int i, String s, String s1) {
+        return new com.jagex.cache.Archive(cache.getFile(0, i));
     }
 
     private void dropClient() {
@@ -5734,12 +5733,12 @@ public class client extends RSApplet {
             TextDrawingArea aTextDrawingArea_1273 = new TextDrawingArea(true, "q8_full", titleArchive);
 //            drawLogo();
             loadTitleScreen();
-            Archive archive = streamLoaderForName(2, "config", "config");
-            Archive archive_1 = streamLoaderForName(3, "interface", "interface");
-            Archive archive_2 = streamLoaderForName(4, "2d graphics", "media");
-            Archive archive_3 = streamLoaderForName(6, "textures", "textures");
-            Archive archive_4 = streamLoaderForName(7, "chat system", "wordenc");
-            Archive archive_5 = streamLoaderForName(8, "sound effects", "sounds");
+            com.jagex.cache.Archive archive = streamLoaderForName(2, "config", "config");
+            com.jagex.cache.Archive archive_1 = streamLoaderForName(3, "interface", "interface");
+            com.jagex.cache.Archive archive_2 = streamLoaderForName(4, "2d graphics", "media");
+            com.jagex.cache.Archive archive_3 = streamLoaderForName(6, "textures", "textures");
+            com.jagex.cache.Archive archive_4 = streamLoaderForName(7, "chat system", "wordenc");
+            com.jagex.cache.Archive archive_5 = streamLoaderForName(8, "sound effects", "sounds");
             byteGroundArray = new byte[4][104][104];
             intGroundArray = new int[4][105][105];
             worldController = new WorldController(intGroundArray);
@@ -5747,7 +5746,7 @@ public class client extends RSApplet {
                 aClass11Array1230[j] = new Class11();
 
             aClass30_Sub2_Sub1_Sub1_1263 = new Sprite(512, 512);
-            Archive archive_6 = streamLoaderForName(5, "update list", "versionlist");
+            com.jagex.cache.Archive archive_6 = streamLoaderForName(5, "update list", "versionlist");
             drawLoadingText(60, "Connecting to update server");
             onDemandFetcher = new OnDemandFetcher();
             onDemandFetcher.start(archive_6, this);
@@ -10559,7 +10558,7 @@ public class client extends RSApplet {
     public String aString1049;
     public static int anInt1051;
     public final int[] anIntArray1052;
-    public Archive titleArchive;
+    public com.jagex.cache.Archive titleArchive;
     public int anInt1054;
     public int anInt1055;
     public NodeList aClass19_1056;

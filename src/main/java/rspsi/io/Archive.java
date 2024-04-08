@@ -1,16 +1,11 @@
 package rspsi.io;
 
-//import com.jagex.cache.util.ByteArray;
-//import com.jagex.cache.util.DataUtils;
-//import com.jagex.cache.util.ExtendedByteArrayOutputStream;
-//import com.jagex.cache.util.Stream;
-//import com.jagex.cache.util.bzip.BZip2Decompressor;
 
-import rspsi.util.ByteArray;
-import rspsi.util.DataUtils;
-import rspsi.util.ExtendedByteArrayOutputStream;
-import rspsi.util.Stream;
-import rspsi.util.bzip.BZip2Decompressor;
+import rspsi.io.util.ByteArray;
+import rspsi.io.util.DataUtils;
+import rspsi.io.util.ExtendedByteArrayOutputStream;
+import rspsi.io.util.Stream;
+import rspsi.io.util.bzip.BZip2Decompressor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +22,25 @@ public class Archive {
     private ArrayList<Integer> compressedSizes = new ArrayList<Integer>();
     private ArrayList<Integer> startOffsets = new ArrayList<Integer>();
     boolean compressedAsWhole;
+    /**
+     * The amount of entries in this Archive.
+     */
+    private int entries;
+
+    /**
+     * Gets an entry by name within the archive.
+     * @param name The name.
+     * @return The entry.
+     */
+    public byte[] getEntry(String name) {
+        int identifier = getHash(name);
+        for (int file = 0; file < this.entries; file++) {
+            if (this.identifiers.get(file) == identifier)
+                return getEntry(String.valueOf(file));
+        }
+        return null;
+    }
+
 
     public Archive(byte abyte0[]) {
         Stream stream = new Stream(abyte0);
@@ -221,4 +235,6 @@ public class Archive {
         files.add(at, new ByteArray(data));
         totalFiles++;
     }
+
+
 }

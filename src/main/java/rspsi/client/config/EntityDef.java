@@ -1,11 +1,11 @@
 package rspsi.client.config;
 
+import com.jagex.cache.Archive;
 import rspsi.client.Class36;
 import rspsi.client.MRUNodes;
 import rspsi.client.client;
 import rspsi.client.animable.Model;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
 
 public final class EntityDef {
 

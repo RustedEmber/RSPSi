@@ -1,7 +1,7 @@
 package rspsi.client.config;
 
-import rspsi.client.stream.Stream;
 import com.jagex.cache.Archive;
+import rspsi.client.stream.Stream;
 
 public final class VarBit {
 

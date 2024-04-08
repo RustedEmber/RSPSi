@@ -1,9 +1,8 @@
 package rspsi.io;
 
-
-import rspsi.util.ExtendedByteArrayOutputStream;
-import rspsi.util.Quantize;
-import rspsi.util.Stream;
+import rspsi.io.util.ExtendedByteArrayOutputStream;
+import rspsi.io.util.Quantize;
+import rspsi.io.util.Stream;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

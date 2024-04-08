@@ -2,12 +2,12 @@ package rspsi.client.cache;// Decompiled by Jad v1.5.8f. Copyright 2001 Pavel Ko
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
+import com.jagex.cache.Archive;
 import rspsi.client.NodeList;
 import rspsi.client.NodeSubList;
 import rspsi.client.client;
 import rspsi.client.sign.signlink;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

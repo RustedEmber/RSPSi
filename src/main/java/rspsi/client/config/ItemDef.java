@@ -1,12 +1,12 @@
 package rspsi.client.config;
 
+import com.jagex.cache.Archive;
 import rspsi.client.MRUNodes;
 import rspsi.client.animable.Model;
 import rspsi.client.graphics.DrawingArea;
 import rspsi.client.graphics.Sprite;
 import rspsi.client.graphics.Texture;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
 
 public final class ItemDef {
 

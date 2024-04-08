@@ -1,13 +1,14 @@
 package rspsi;
 
-//import com.auradevil.cachesuite.guis.*;
-//import com.auradevil.cachesuite.guis.dialogs.ChooseArchive;
-//import com.auradevil.cachesuite.guis.dialogs.ChooseCache;
-//import com.auradevil.cachesuite.guis.dialogs.ChooseImage;
+import rspsi.gui.*;
+import rspsi.gui.dialogs.ChooseArchive;
+import rspsi.gui.dialogs.ChooseCache;
+import rspsi.gui.dialogs.ChooseImage;
+import rspsi.io.Archive;
+import rspsi.io.Cache;
+import rspsi.io.CacheIndice;
+import rspsi.io.util.DataUtils;
 
-import rspsi.io.*;
-import rspsi.util.DataUtils;
-import rspsi.util.ToolsUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
  */
 public class SuiteLogic {
 	private Cache currentCache;
-	private Main swingComponent;
+	private Gui swingComponent;
 	private JFileChooser fc = new JFileChooser();
-	private String[] archiveDefaults = {
+	private final String[] archiveDefaults = {
 			"title.jag", "config.jag", "interface.jag", "media.jag",
 			"versionlist.jag", "textures.jag", "wordenc.jag", "sounds.jag"
 	};
@@ -49,7 +50,7 @@ public class SuiteLogic {
 
 
 	public SuiteLogic(Component swingComponent) {
-		this.swingComponent = (Main) swingComponent;
+		this.swingComponent = (Gui) swingComponent;
 	}
 
 	public void loadNewCache() throws IOException {
@@ -67,12 +68,12 @@ public class SuiteLogic {
 	public void loadCacheFromDir(String absolutePath) throws IOException {
 		currentCache = new Cache(absolutePath);
 		ToolsUI toolkit = swingComponent.getTools();
-		toolkit.viewEditRawFileButton.setEnabled(true);
+	//	toolkit.viewEditRawFileButton.setEnabled(true);
 		toolkit.viewEditJaGeXArchivesButton.setEnabled(true);
 		toolkit.viewEditImageArchivesButton.setEnabled(true);
-		toolkit.viewEditFloorConfigurationButton.setEnabled(true);
+	//	toolkit.viewEditFloorConfigurationButton.setEnabled(true);
 //		toolkit.viewEditItemConfigurationButton.setEnabled(true);
-  //      toolkit.importExport3DModelsButton.setEnabled(true);
+//        toolkit.importExport3DModelsButton.setEnabled(true);
 		loadKnownArchiveNames();
 	}
 
@@ -81,36 +82,36 @@ public class SuiteLogic {
 	}
 
 	public void addOrEditFile(int cache, int file, byte[] data) {
-		CacheIndice indice = Main.logic.getCurrentCache().getIndice(cache);
+		CacheIndice indice = Gui.logic.getCurrentCache().getIndice(cache);
 		try {
 			indice.addOrEditFile(file, data.length, data, true);
-			JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Archive repacked sucessfully");
+			JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Archive repacked sucessfully");
 		} catch (IOException e) {
 			if (e.toString().contains("Cache must be rebuilt")) {
 				repackCache();
 			} else {
-				JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst repacking cache:\n" + e);
+				JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst repacking cache:\n" + e);
 				e.printStackTrace();
 			}
 		}
 	}
 
 	public void repackCache() {
-		int response = JOptionPane.showConfirmDialog(Main.logic.getSwingComponent(), "Cache must be rebuilt to avoid corruption.\n" +
+		int response = JOptionPane.showConfirmDialog(Gui.logic.getSwingComponent(), "Cache must be rebuilt to avoid corruption.\n" +
 						"Would you like to rebuild the cache?", "Select an option", JOptionPane.YES_NO_OPTION);
 				switch (response) {
 					case 0: // Yes
 						try {
-							Main.logic.rebuildCache();
-							JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Cache repacked sucessfully");
+							Gui.logic.rebuildCache();
+							JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Cache repacked sucessfully");
 						} catch (IOException e1) {
-							JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst rebuilding archive:\n" +
+							JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst rebuilding archive:\n" +
 									e1);
 							e1.printStackTrace();
 						}
 						break;
 					case 1: // No
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "The cache will not be modified");
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "The cache will not be modified");
 						break;
 				}
 	}
@@ -213,7 +214,7 @@ public class SuiteLogic {
 		try {
 			a = new Archive(c.getFile(archive + 1));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
+			JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
 			e.printStackTrace();
 		}
 		ArchiveEdit ae = new ArchiveEdit(a, archive + 1, knownJagNames[archive]);
@@ -227,10 +228,12 @@ public class SuiteLogic {
 		swingComponent.addFrame(ie);
 	}
 
-	public static void showSelectImage() {
+	public void showSelectImage() {
 		ChooseImage ci = new ChooseImage();
+
 		ci.pack();
 		ci.setLocationByPlatform(true);
+		ci.setLocationRelativeTo(null);
 		ci.setVisible(true);
 	}
 
@@ -252,11 +255,7 @@ public class SuiteLogic {
 		swingComponent.addFrame(i);
 	}
 
-    public void editModels() {
-        //ModelEdit m = new ModelEdit();
-       // m.setTitle("Editing model archive");
-       // swingComponent.addFrame(m);
-    }
+
 
     class FileTypeFilter extends javax.swing.filechooser.FileFilter {
 		String description;

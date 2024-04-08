@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
@@ -11,17 +12,16 @@ import javax.swing.tree.TreePath;
 
 import com.l2fprod.common.propertysheet.Property;
 
+import rspsi.Gui;
 import rspsi.Main;
 import rspsi.Rspsi;
-import rspsi.SuiteLogic;
 import rspsi.client.Interface;
 import rspsi.gui.Workspace;
-import rspsi.io.ChooseImage;
 
 public class Edit {
 
 	private Workspace workspace;
-private ChooseImage chooseImage;
+
 	public Edit(Workspace workspace) {
     	this.workspace = workspace;
 	}
@@ -56,6 +56,15 @@ private ChooseImage chooseImage;
         return true;
 	}
 
+
+public void toMedia(){
+
+	try {
+		Gui.main(new String[0]);
+	} catch (IOException e) {
+		throw new RuntimeException(e);
+	}
+}
 	public void undo() {
 //		RSInterface.interfaceCache = RSInterface.lastCache;
 //		workspace.getTree().updateTree(-1);
@@ -177,11 +186,7 @@ private ChooseImage chooseImage;
 
     	workspace.getPropSheet().update();
     }
-public void media(){
 
-	//new ChooseImage();
-	SuiteLogic.showSelectImage();
-}
     public void font() {
     	if (!doChecks("change font of", 1))
     		return;

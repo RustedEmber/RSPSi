@@ -1,8 +1,6 @@
 package rspsi.io;
 
-//import com.jagex.cache.util.ByteArray;
-
-import rspsi.util.ByteArray;
+import rspsi.io.util.ByteArray;
 
 import java.io.File;
 import java.io.IOException;

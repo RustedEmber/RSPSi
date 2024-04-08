@@ -2,6 +2,7 @@ package rspsi.client;
 
 import java.awt.Color;
 
+import com.jagex.cache.Archive;
 import rspsi.Main;
 import rspsi.client.animable.Model;
 import rspsi.client.config.EntityDef;
@@ -9,11 +10,10 @@ import rspsi.client.config.ItemDef;
 import rspsi.client.graphics.Sprite;
 import rspsi.client.graphics.TextDrawingArea;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
 
 public class Interface {
 
-    public static void unpack(Stream stream, TextDrawingArea textDrawingAreas[], Archive archive_1) {
+    public static void unpack(Stream stream, TextDrawingArea textDrawingAreas[], com.jagex.cache.Archive archive_1) {
         aMRUNodes_sprite = new MRUNodes(50000);
         textDrawingAreas_rsi = textDrawingAreas;
         archive_rsi = archive_1;
@@ -285,7 +285,7 @@ public class Interface {
         return model;
     }
 
-    protected static Sprite method207(int i, Archive archive, String s) {
+    protected static Sprite method207(int i, com.jagex.cache.Archive archive, String s) {
         long l = (TextClass.method585(s) << 8) + (long) i;
         Sprite sprite = (Sprite) aMRUNodes_sprite.insertFromCache(l);
         if (sprite != null)

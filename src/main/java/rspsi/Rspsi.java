@@ -11,7 +11,7 @@ import rspsi.client.config.ItemDef;
 import rspsi.client.graphics.Sprite;
 import rspsi.client.graphics.TextDrawingArea;
 import rspsi.client.stream.Stream;
-import com.jagex.cache.Archive;
+import rspsi.io.Archive;
 import rspsi.io.FileOperations;
 
 public class Rspsi extends Interface {

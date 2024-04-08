@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  */
 public class ToolsActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent actionEvent) {
-		SuiteLogic logic = Main.logic;
+		SuiteLogic logic = Gui.logic;
 		if (actionEvent.getActionCommand().equals("cacheedit")) {
 			logic.showSelectCache();
 		} else if (actionEvent.getActionCommand().equals("archiveedit")) {
@@ -19,8 +19,6 @@ public class ToolsActionListener implements ActionListener {
 			logic.editFloors();
 		} else if (actionEvent.getActionCommand().equals("itemedit")) {
 			logic.editItems();
-		} else if (actionEvent.getActionCommand().equals("modeledit")) {
-            logic.editModels();
-        }
+		}
 	}
 }
