@@ -3,6 +3,7 @@ package rspsi.io;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import rspsi.Gui;
 import rspsi.Main;
 import rspsi.util.DataUtils;
 
@@ -47,7 +48,7 @@ public class ArchiveEdit extends JInternalFrame {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
 				if (hasEdited) {
-					int response = JOptionPane.showConfirmDialog(Main.logic.getSwingComponent(), "This archive has been modified.\n" +
+					int response = JOptionPane.showConfirmDialog(Gui.logic.getSwingComponent(), "This archive has been modified.\n" +
 							"Are you sure you wish to exit without saving changes?", "Exit?", JOptionPane.YES_NO_OPTION);
 					if (response == JOptionPane.YES_OPTION) {
 						dispose();
@@ -81,10 +82,10 @@ public class ArchiveEdit extends JInternalFrame {
 		dumpFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Main.logic.saveToFile(archive.getFileAt(files.getSelectedIndex()));
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "File dump sucessful");
+					Gui.logic.saveToFile(archive.getFileAt(files.getSelectedIndex()));
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "File dump sucessful");
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred dumping file:\n" + e1);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred dumping file:\n" + e1);
 					e1.printStackTrace();
 				}
 			}
@@ -92,7 +93,7 @@ public class ArchiveEdit extends JInternalFrame {
 		removeFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				archive.removeFile(files.getSelectedIndex());
-				JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Removed file sucessfully");
+				JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Removed file sucessfully");
 				buildFilesList();
 				setEdited();
 			}
@@ -100,12 +101,12 @@ public class ArchiveEdit extends JInternalFrame {
 		replaceFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					byte[] newData = Main.logic.loadFromFile();
+					byte[] newData = Gui.logic.loadFromFile();
 					archive.updateFile(files.getSelectedIndex(), newData);
 					setEdited();
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "File replacement sucessful");
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "File replacement sucessful");
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred replacing file:\n" + e1.getMessage());
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred replacing file:\n" + e1.getMessage());
 				}
 			}
 		});
@@ -116,13 +117,13 @@ public class ArchiveEdit extends JInternalFrame {
 				rd.pack();
 				buildFilesList();
 				setEdited();
-				JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "File renamed sucessfuly");
+				JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "File renamed sucessfuly");
 			}
 		});
 		addFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					byte[] newData = Main.logic.loadFromFile();
+					byte[] newData = Gui.logic.loadFromFile();
 					if (newData != null) {
 						archive.addFile(-1, newData);
 						RenameDialog rd = new RenameDialog(archive, archive.getTotalFiles() - 1);
@@ -130,10 +131,10 @@ public class ArchiveEdit extends JInternalFrame {
 						rd.pack();
 						buildFilesList();
 						setEdited();
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "File added sucessfuly");
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "File added sucessfuly");
 					}
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst adding file: " + e1);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst adding file: " + e1);
 					e1.printStackTrace();
 				}
 			}
@@ -142,11 +143,11 @@ public class ArchiveEdit extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					byte[] newData = archive.recompile();
-					Main.logic.addOrEditFile(0, cacheFile, newData);
+					Gui.logic.addOrEditFile(0, cacheFile, newData);
 					hasEdited = false;
 					setTitle(title);
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst repacking archive: " + e1);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst repacking archive: " + e1);
 					e1.printStackTrace();
 				}
 			}

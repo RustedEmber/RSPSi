@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.l2fprod.common.propertysheet.*;
+import rspsi.Gui;
 import rspsi.Main;
 import rspsi.util.SpinnerCellEditor;
 import rspsi.util.configloaders.FloorConfig;
@@ -45,7 +46,7 @@ public class FloorEdit extends JInternalFrame {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
 				if (hasEdited) {
-					int response = JOptionPane.showConfirmDialog(Main.logic.getSwingComponent(), "The floor configuration has been modified.\n" +
+					int response = JOptionPane.showConfirmDialog(Gui.logic.getSwingComponent(), "The floor configuration has been modified.\n" +
 							"Are you sure you wish to exit without saving changes?", "Exit?", JOptionPane.YES_NO_OPTION);
 					if (response == JOptionPane.YES_OPTION) {
 						dispose();
@@ -57,9 +58,9 @@ public class FloorEdit extends JInternalFrame {
 		});
 		textures = new ImageArchive(textureSet);
 		try {
-			this.jagArchive = new Archive(Main.logic.getCurrentCache().getIndice(0).getFile(2));
+			this.jagArchive = new Archive(Gui.logic.getCurrentCache().getIndice(0).getFile(2));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
+			JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
 			e.printStackTrace();
 		}
 		try {
@@ -88,11 +89,11 @@ public class FloorEdit extends JInternalFrame {
 					byte[] newFloorData = FloorConfig.repack();
 					jagArchive.updateFile(jagArchive.indexOf("flo.dat"), newFloorData);
 					byte[] newJagData = jagArchive.recompile();
-					Main.logic.addOrEditFile(0, 2, newJagData);
+					Gui.logic.addOrEditFile(0, 2, newJagData);
 					hasEdited = false;
 					setTitle(title);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Error repacking floor configloaders:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Error repacking floor configloaders:\n" + e);
 					e.printStackTrace();
 				}
 			}

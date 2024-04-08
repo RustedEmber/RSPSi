@@ -3,6 +3,7 @@ package rspsi.io;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import rspsi.Gui;
 import rspsi.Main;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class CacheEdit extends JInternalFrame {
 
 	public CacheEdit(final int cache) {
 		add(main);
-		editingIndice = Main.logic.getCurrentCache().getIndice(cache);
+		editingIndice = Gui.logic.getCurrentCache().getIndice(cache);
 		pack();
 		String[] filesData = new String[editingIndice.getNumFiles()];
 		for (int i = 0; i < editingIndice.getNumFiles(); i++) {
@@ -51,7 +52,7 @@ public class CacheEdit extends JInternalFrame {
 				try {
 					data = editingIndice.getFile(files.getSelectedIndex());
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
 					e.printStackTrace();
 				}
 				if (data == null) {
@@ -78,14 +79,14 @@ public class CacheEdit extends JInternalFrame {
 				try {
 					data = editingIndice.getFile(files.getSelectedIndex());
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
 					e.printStackTrace();
 				}
 				try {
-					Main.logic.saveToFile(data);
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "File dump sucessful");
+					Gui.logic.saveToFile(data);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "File dump sucessful");
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred dumping file:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred dumping file:\n" + e);
 					e.printStackTrace();
 				}
 			}
@@ -96,10 +97,10 @@ public class CacheEdit extends JInternalFrame {
 					return;
 				}
 				try {
-					byte[] data = Main.logic.loadFromFile();
-					Main.logic.addOrEditFile(cache, files.getSelectedIndex(), data);
+					byte[] data = Gui.logic.loadFromFile();
+					Gui.logic.addOrEditFile(cache, files.getSelectedIndex(), data);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred replacing file:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred replacing file:\n" + e);
 					e.printStackTrace();
 				}
 			}
@@ -107,13 +108,13 @@ public class CacheEdit extends JInternalFrame {
 		addFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				try {
-					byte[] data = Main.logic.loadFromFile();
+					byte[] data = Gui.logic.loadFromFile();
 					if (data != null) {
-						Main.logic.addOrEditFile(cache, editingIndice.getNumFiles(), data);
+						Gui.logic.addOrEditFile(cache, editingIndice.getNumFiles(), data);
 						updateFileList();
 					}
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred adding file:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred adding file:\n" + e);
 					e.printStackTrace();
 				}
 			}
@@ -122,9 +123,9 @@ public class CacheEdit extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				editingIndice.removeFile(files.getSelectedIndex());
 				try {
-					Main.logic.rebuildCache();
+					Gui.logic.rebuildCache();
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred removing file:\n" + e1);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred removing file:\n" + e1);
 					e1.printStackTrace();
 				}
 				updateFileList();

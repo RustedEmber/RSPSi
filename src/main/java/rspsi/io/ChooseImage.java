@@ -3,6 +3,7 @@ package rspsi.io;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import rspsi.Gui;
 import rspsi.Main;
 
 import javax.swing.*;
@@ -57,7 +58,7 @@ public class ChooseImage extends JDialog {
 		} else if (images.getSelectedIndex() == 2) { // texture
 			jagFile = 6;
 		}
-		Main.logic.editImage(jagFile);
+		Gui.logic.editImage(jagFile);
 		dispose();
 	}
 

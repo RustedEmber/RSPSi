@@ -4,6 +4,7 @@ import com.l2fprod.common.beans.editor.ComboBoxPropertyEditor;
 import com.l2fprod.common.propertysheet.Property;
 import com.l2fprod.common.propertysheet.PropertyEditorRegistry;
 import com.l2fprod.common.propertysheet.PropertySheetPanel;
+import rspsi.Gui;
 import rspsi.Main;
 import rspsi.util.configloaders.ItemConfig;
 import rspsi.util.configloaders.beans.ItemBean;
@@ -33,10 +34,10 @@ public class ItemEdit extends JInternalFrame {
 
 	public ItemEdit() {
 		try {
-			configArchive = new Archive(Main.logic.getCurrentCache().getIndice(0).getFile(2));
+			configArchive = new Archive(Gui.logic.getCurrentCache().getIndice(0).getFile(2));
 			ItemConfig.unpackConfig(configArchive.getFile("obj.dat"), configArchive.getFile("obj.idx"));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
+			JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
 			e.printStackTrace();
 		}
 		add(main);
@@ -79,9 +80,9 @@ public class ItemEdit extends JInternalFrame {
 					configArchive.updateFile(configArchive.indexOf("obj.idx"), repacked[0]);
 					configArchive.updateFile(configArchive.indexOf("obj.dat"), repacked[1]);
 					byte[] newJagData = configArchive.recompile();
-					Main.logic.addOrEditFile(0, 2, newJagData);
+					Gui.logic.addOrEditFile(0, 2, newJagData);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst repacking archive:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst repacking archive:\n" + e);
 					e.printStackTrace();
 				}
 			}

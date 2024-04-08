@@ -3,6 +3,7 @@ package rspsi.io;
 
 import com.l2fprod.common.propertysheet.PropertySheet;
 import com.l2fprod.common.propertysheet.PropertySheetPanel;
+import rspsi.Gui;
 import rspsi.Main;
 import rspsi.util.DataUtils;
 
@@ -55,7 +56,7 @@ public class ImageEdit extends JInternalFrame {
 			@Override
 			public void internalFrameClosing(InternalFrameEvent e) {
 				if (hasEdited) {
-					int response = JOptionPane.showConfirmDialog(Main.logic.getSwingComponent(), "This archive has been modified.\n" +
+					int response = JOptionPane.showConfirmDialog(Gui.logic.getSwingComponent(), "This archive has been modified.\n" +
 							"Are you sure you wish to exit without saving changes?", "Exit?", JOptionPane.YES_NO_OPTION);
 					if (response == JOptionPane.YES_OPTION) {
 						dispose();
@@ -67,10 +68,10 @@ public class ImageEdit extends JInternalFrame {
 		});
 		this.knownImages = knownImages;
 		try {
-			this.jagArchive = new Archive(Main.logic.getCurrentCache().getIndice(0).getFile(cacheFile));
+			this.jagArchive = new Archive(Gui.logic.getCurrentCache().getIndice(0).getFile(cacheFile));
 			this.imageArchive = new ImageArchive(jagArchive);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
+			JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst loading archive:\n" + e);
 			e.printStackTrace();
 		}
 		reloadKnownHashes();
@@ -119,11 +120,11 @@ public class ImageEdit extends JInternalFrame {
 				ImageGroup arch = imageArchive.getImage(files.getSelectedIndex());
 				Image thisSprite = arch.getImage(images.getSelectedIndex());
 				try {
-					if (Main.logic.saveImageToFile(getImageBytes(thisSprite))) {
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Image dumped sucessfully");
+					if (Gui.logic.saveImageToFile(getImageBytes(thisSprite))) {
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Image dumped sucessfully");
 					}
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An unknown error occurred!\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An unknown error occurred!\n" + e);
 					e.printStackTrace();
 				}
 			}
@@ -131,15 +132,15 @@ public class ImageEdit extends JInternalFrame {
 		importButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				try {
-					byte[] newImage = Main.logic.loadImageFromFile();
+					byte[] newImage = Gui.logic.loadImageFromFile();
 					ImageGroup arch = imageArchive.getImage(files.getSelectedIndex());
-					arch.replaceImage(images.getSelectedIndex(), newImage, Main.logic.getSwingComponent());
+					arch.replaceImage(images.getSelectedIndex(), newImage, Gui.logic.getSwingComponent());
 					updateDisplayedImage();
 					setEdited();
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Image replaced sucessfully");
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Image replaced sucessfully");
 				} catch (Exception e) {
 					if (!(e instanceof NullPointerException)) {
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An unknown error occurred:\n" + e);
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An unknown error occurred:\n" + e);
 						e.printStackTrace();
 					}
 				}
@@ -149,11 +150,11 @@ public class ImageEdit extends JInternalFrame {
 			public void actionPerformed(ActionEvent actionEvent) {
 				try {
 					byte[] newData = imageArchive.repackArchive();
-					Main.logic.addOrEditFile(0, cacheFile, newData);
+					Gui.logic.addOrEditFile(0, cacheFile, newData);
 					hasEdited = false;
 					setTitle(title);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst repacking:\n" + e);
+					JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst repacking:\n" + e);
 					e.printStackTrace();
 				}
 			}
@@ -206,21 +207,21 @@ public class ImageEdit extends JInternalFrame {
 		addImageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				try {
-					byte[] newImage = Main.logic.loadImageFromFile();
+					byte[] newImage = Gui.logic.loadImageFromFile();
 					ImageGroup arch = imageArchive.getImage(files.getSelectedIndex());
 					if (newImage != null) {
-						arch.addSprite(newImage, Main.logic.getSwingComponent());
+						arch.addSprite(newImage, Gui.logic.getSwingComponent());
 						populateImagesList();
 						images.setSelectedIndex(arch.countImages() - 1);
 						updateDisplayedImage();
 						setEdited();
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Image added successfully.");
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Image added successfully.");
 					} else {
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An error occurred whilst adding image.");
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An error occurred whilst adding image.");
 					}
 				} catch (Exception e) {
 					if (!(e instanceof NullPointerException)) {
-						JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "An unknown error occurred:\n" + e);
+						JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "An unknown error occurred:\n" + e);
 						e.printStackTrace();
 					}
 				}
@@ -232,7 +233,7 @@ public class ImageEdit extends JInternalFrame {
 				arch.removeSprite(images.getSelectedIndex());
 				updateDisplayedImage();
 				setEdited();
-				JOptionPane.showMessageDialog(Main.logic.getSwingComponent(), "Image removed successfully.");
+				JOptionPane.showMessageDialog(Gui.logic.getSwingComponent(), "Image removed successfully.");
 			}
 		});
 		updateDisplayedImage();

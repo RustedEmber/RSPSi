@@ -3,6 +3,7 @@ package rspsi.io;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import rspsi.Gui;
 import rspsi.Main;
 
 import javax.swing.*;
@@ -49,7 +50,7 @@ public class ChooseCache extends JDialog {
 	}
 
 	private void onOK() {
-		Main.logic.editCache(cache.getSelectedIndex());
+		Gui.logic.editCache(cache.getSelectedIndex());
 		dispose();
 	}
 
