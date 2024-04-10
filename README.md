@@ -111,7 +111,11 @@ Options -\>
 
 Media.jag location - You can browse for a media.jag that you wish to use
 
-Backup Changes to RSI/DAT file - Every interface modification is saved to the local 'Saves' folder. These buttons are toggable & both can be active at the same time.
+Backup Modifications to RSI/DAT file - Every interface modification is saved to the local 'Saves' folder, as a DAT or RSI file.
+
+This is like manually going File > To Cache File/ Export. The difference is that every change you make is automatically saved.
+
+These buttons are toggable & both can be active at the same time.
 
 Help - Shows a help window
 
@@ -122,3 +126,4 @@ Help - Shows a help window
 * Peter - Reference of his interface editor, basic design layout idea.
 * FileChooserDemo2.java - ImagePreview.java
 * Advocatus - Gradle Build + Updates
+* Snow Essence - Toms Suite Integration + Backup Options.

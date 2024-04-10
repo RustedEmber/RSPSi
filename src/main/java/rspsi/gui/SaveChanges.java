@@ -58,8 +58,8 @@ public class SaveChanges {
         // Create the file name with the formatted date and time
         String fileName = dateTimeString + "_exported_file.dat";
 
-        // Create the file path in the C:/ESDZ directory
-        String filePath = "C:/ESDZ/" + fileName;
+        // Create the file path in the ./Saves directory
+        String filePath = "./Saves/" + fileName;
 
         // Save the file to the specified path
         try (FileOutputStream fos = new FileOutputStream(filePath)) {

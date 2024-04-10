@@ -86,14 +86,14 @@ public class Tree extends JScrollPane implements TreeSelectionListener {
 		if (Menu.saveEnabled) {
 
 			// Call exportRsi2 method from SaveChanges class
-			SaveChanges.exportRsi2(0, "C:/ESDZ");
-			System.out.println("Saving enabled to C:/ESDZ");
+			SaveChanges.exportRsi2(0, "./Saves");
+			System.out.println("Saving enabled to ./Saves");
 		} else {
 			System.out.println("Saving disabled");
 		}
 		if (Menu.saveEnabled2) {
 			SaveChanges.toFile2();
-			System.out.println("Saving enabled to C:/ESDZ");
+			System.out.println("Saving enabled to ./Saves");
 		} else {
 			System.out.println("Saving disabled");
 			System.out.println("tree update: " + Main.editingID);

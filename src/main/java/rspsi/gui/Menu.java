@@ -17,7 +17,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	public void toggleSaveEnabled() {
 		saveEnabled = !saveEnabled;
 		if (saveEnabled) {
-			System.out.println("Saving enabled to C:/ESDZ");
+			System.out.println("Saving enabled to ./Saves");
 			// Optionally, update UI or perform other actions as needed
 		} else {
 			System.out.println("Saving disabled");
@@ -40,7 +40,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); // Changed to X_AXIS for horizontal alignment
 
-		toRsiFileRadioButton = new JRadioButton("Backup Every Modification to RSI File...");
+		toRsiFileRadioButton = new JRadioButton("Backup Modifications to RSI File...");
 		toRsiFileRadioButton.addActionListener(this);
 
 		for (int abc = 0; abc < menuNames.length; abc++)
@@ -59,10 +59,10 @@ public class Menu extends JMenuBar implements ActionListener {
 		insert = new Insert(workspace);
 
 
-		toRsiFileRadioButton = new JRadioButton("Backup Every Modification to RSI File...");
+		toRsiFileRadioButton = new JRadioButton("Backup Modifications to RSI File...");
 		toRsiFileRadioButton.addActionListener(this);
 
-		duplicateRadioButton = new JRadioButton("Backup Every Modification to DAT File...");
+		duplicateRadioButton = new JRadioButton("Backup Modifications to DAT File...");
 		duplicateRadioButton.addActionListener(this);
 
 		JMenu toolsMenu = getMenu(4); // Assuming "Tools" is at index 10
@@ -223,7 +223,7 @@ public class Menu extends JMenuBar implements ActionListener {
 				workspace.getFrame().pack();
 			}
 
-			if (cmd.equals("Backup Every Modification to RSI File...") || cmd.equals("Backup Every Modification to DAT File...")) {
+			if (cmd.equals("Backup Modifications to RSI File...") || cmd.equals("Backup Modifications to DAT File...")) {
 				// Toggle the corresponding saveEnabled flag
 				if (evt.getSource() instanceof JRadioButton) {
 					JRadioButton source = (JRadioButton) evt.getSource();
@@ -232,7 +232,7 @@ public class Menu extends JMenuBar implements ActionListener {
 						if (saveEnabled) {
 							System.out.println("Saving enabled to Saves folder for RSI File");
 							// Call your saving functionality for RSI file here
-							// SaveChanges.exportRsi2(0, "C:/ESDZ");
+							// SaveChanges.exportRsi2(0, "./Saves");
 						} else {
 							System.out.println("Saving disabled for RSI File");
 							// Perform cleanup or update UI as needed
@@ -242,7 +242,7 @@ public class Menu extends JMenuBar implements ActionListener {
 						if (saveEnabled2) {
 							System.out.println("Saving enabled to Saves folder for DAT File");
 							// Call your saving functionality for DAT file here
-							// SaveChanges.exportDat2(0, "C:/ESDZ");
+							// SaveChanges.exportDat2(0, "./Saves");
 						} else {
 							System.out.println("Saving disabled for DAT File");
 							// Perform cleanup or update UI as needed
@@ -340,7 +340,7 @@ public class Menu extends JMenuBar implements ActionListener {
 			"[MENU]Edit", "[MENU]Edit/Set", "[MENU]Edit/Layer",
 			"[MENU]View","[MENU]Edit/Media",
 			"[MENU]Interface", "[MENU]Interface/Insert",
-			"[MENU]Tools", //"[MENU]Tools/Backup Every Modification",
+			"[MENU]Tools", //"[MENU]Tools/Backup Modifications",
 			"[MENU]Help" };
 
 
@@ -390,8 +390,8 @@ public class Menu extends JMenuBar implements ActionListener {
 			"[CBOX]Tools/Values Editor",
 			"[SEPE]Tools/Seperator",
 			"[ITEM]Tools/Options",
-		//	"[ITEM]Tools/Backup Every Modification to RSI File...",
-		//	"[ITEM]Tools/Backup Every Modification to DAT File...",
+		//	"[ITEM]Tools/Backup Modifications to RSI File...",
+		//	"[ITEM]Tools/Backup Modifications to DAT File...",
 
 
 
