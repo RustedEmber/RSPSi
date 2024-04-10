@@ -127,3 +127,4 @@ Help - Shows a help window
 * FileChooserDemo2.java - ImagePreview.java
 * Advocatus - Gradle Build + Updates
 * Snow Essence - Toms Suite Integration + Backup Options.
+* Thing1 - For his kind words & encouragement =)
