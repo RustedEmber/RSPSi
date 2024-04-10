@@ -41,6 +41,14 @@ Move - Move an object on an interface
 
 Resize - Resize an object or container on an interface
 
+Media - Toms Suite is integrated for extra features. 
+
+a) Edit Raw File System - Ex: Choose index 0, then dump file 4 ( media.jag ) which enables you to use the menu item Tools > Options.
+
+b) Edit Jagex Archives - Allows editing of archives. Ex: Title.jag, Media.jag.
+
+c) Edit Image Archvies - Allowing for editing of sprites from Title/Media/Texture.
+
 Set -\>
 
 Bounds() - Sets the width/height of selected objects automatically based
@@ -102,6 +110,8 @@ you can later import
 Options -\>
 
 Media.jag location - You can browse for a media.jag that you wish to use
+
+Backup Changes to RSI/DAT file - Every interface modification is saved to the local 'Saves' folder. These buttons are toggable & both can be active at the same time.
 
 Help - Shows a help window
 
