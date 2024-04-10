@@ -21,7 +21,7 @@ public class ToolsUI {
 	public JButton importExport3DModelsButton;
 
 	public ToolsUI() {
-	//	viewEditRawFileButton.addActionListener(action);
+	viewEditRawFileButton.addActionListener(action);
 		viewEditJaGeXArchivesButton.addActionListener(action);
 		viewEditImageArchivesButton.addActionListener(action);
 		//viewEditFloorConfigurationButton.addActionListener(action);
@@ -46,13 +46,13 @@ public class ToolsUI {
 	private void $$$setupUI$$$() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
-		//viewEditRawFileButton = new JButton();
-		//viewEditRawFileButton.setActionCommand("cacheedit");
-		//viewEditRawFileButton.setEnabled(false);
-	//	viewEditRawFileButton.setText("View/Edit Raw File System");
-		//viewEditRawFileButton.setMnemonic('R');
-		//viewEditRawFileButton.setDisplayedMnemonicIndex(10);
-		//mainPanel.add(viewEditRawFileButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		viewEditRawFileButton = new JButton();
+		viewEditRawFileButton.setActionCommand("cacheedit");
+		viewEditRawFileButton.setEnabled(false);
+	viewEditRawFileButton.setText("View/Edit Raw File System");
+		viewEditRawFileButton.setMnemonic('R');
+		viewEditRawFileButton.setDisplayedMnemonicIndex(10);
+		mainPanel.add(viewEditRawFileButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 		viewEditJaGeXArchivesButton = new JButton();
 		viewEditJaGeXArchivesButton.setActionCommand("archiveedit");
 		viewEditJaGeXArchivesButton.setEnabled(false);

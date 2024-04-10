@@ -44,13 +44,13 @@ public class Gui extends JFrame {
     public Gui() throws HeadlessException {
         super("Runescape Cache Suite V" + VERSION + " BETA by Tom (www.Nuke-Net.com)");
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         buildMenu();
 
         mainPane = new JDesktopPane();
         add(mainPane, BorderLayout.CENTER);
 
-        setSize(205, 152);
+        setSize(208, 182);
 
         setLocationByPlatform(true);
         setLocationRelativeTo(null);
@@ -70,7 +70,7 @@ public class Gui extends JFrame {
         frame.getContentPane().add(internalFrame);
 
         // Make the JInternalFrame visible
-        frame.setAlwaysOnTop(true);
+        //frame.setAlwaysOnTop(true);
         internalFrame.setClosable(true);
         internalFrame.setResizable(true);
         internalFrame.setMaximizable(true);

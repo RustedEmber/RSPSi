@@ -68,7 +68,7 @@ public class SuiteLogic {
 	public void loadCacheFromDir(String absolutePath) throws IOException {
 		currentCache = new Cache(absolutePath);
 		ToolsUI toolkit = swingComponent.getTools();
-	//	toolkit.viewEditRawFileButton.setEnabled(true);
+		toolkit.viewEditRawFileButton.setEnabled(true);
 		toolkit.viewEditJaGeXArchivesButton.setEnabled(true);
 		toolkit.viewEditImageArchivesButton.setEnabled(true);
 	//	toolkit.viewEditFloorConfigurationButton.setEnabled(true);

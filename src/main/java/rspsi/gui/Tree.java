@@ -13,6 +13,7 @@ import javax.swing.tree.*;
 import rspsi.Main;
 import rspsi.RSInterfaceConstants;
 import rspsi.client.Interface;
+import rspsi.io.SaveManager;
 
 public class Tree extends JScrollPane implements TreeSelectionListener {
 
@@ -28,7 +29,7 @@ public class Tree extends JScrollPane implements TreeSelectionListener {
 		setPreferredSize(new Dimension(265, 248));
         setViewportView(tree);
     }
-	
+
 	public void resetTree() {
     	tree = new JTree(new DefaultMutableTreeNode("Nothing loaded"));
     	tree.addTreeSelectionListener(this);
@@ -40,12 +41,12 @@ public class Tree extends JScrollPane implements TreeSelectionListener {
 		expanded.clear();
 		getNodeSequances("-0", (TreeNode) tree.getModel().getRoot());//needs to go before any actions r actually carried out
 
-    	Interface topParent = Main.topParent;
-        String topName = (topParent.id == topParent.parentId)
-    			? topParent.id + ": [Top Parent]"
-    			: topParent.id + ": [Parent Container]";
+		Interface topParent = Main.topParent;
+		String topName = (topParent.id == topParent.parentId)
+				? topParent.id + ": [Top Parent]"
+				: topParent.id + ": [Parent Container]";
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(topName);
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(topName);
 
 		if (topParent.children != null)
 			for (int abc = 0; abc < topParent.children.length; abc++) {
@@ -54,17 +55,17 @@ public class Tree extends JScrollPane implements TreeSelectionListener {
 				if (child == null)
 					break;
 				else if (child.type == 0 && child.children != null && child.children.length > 0)
-						treeNode = parseContainer(abc, topParent);
+					treeNode = parseContainer(abc, topParent);
 				else
 					treeNode = new DefaultMutableTreeNode(tooltipForChild(abc, topParent));
-	            root.add(treeNode);
+				root.add(treeNode);
 			}
 
-        tree.setModel(new DefaultTreeModel(root));
+		tree.setModel(new DefaultTreeModel(root));
 		selectNodeSequances("-0", (TreeNode) tree.getModel().getRoot());
 //        setSelectionPaths(paths, rows);
 
-        //        setSelectionPaths(paths, rows);
+		//        setSelectionPaths(paths, rows);
 //        if (Main.editingLayers[0] > -1) {
 //		    int goTo = 1;
 //
@@ -82,9 +83,23 @@ public class Tree extends JScrollPane implements TreeSelectionListener {
 //	       		tree.setSelectionRow(goTo);
 //        } else
 //       		tree.setSelectionRow(0);
+		if (Menu.saveEnabled) {
 
-		System.out.println("tree update: " + Main.editingID);
-    }
+			// Call exportRsi2 method from SaveChanges class
+			SaveChanges.exportRsi2(0, "C:/ESDZ");
+			System.out.println("Saving enabled to C:/ESDZ");
+		} else {
+			System.out.println("Saving disabled");
+		}
+		if (Menu.saveEnabled2) {
+			SaveChanges.toFile2();
+			System.out.println("Saving enabled to C:/ESDZ");
+		} else {
+			System.out.println("Saving disabled");
+			System.out.println("tree update: " + Main.editingID);
+		}
+	}
+
 	
 	public void setSelectionPaths(TreePath[] paths, int[] rows) {
 		tree.setSelectionPaths(paths);

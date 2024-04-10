@@ -127,7 +127,10 @@ public class Workspace extends client implements ActionListener {
 				}
 		} while (stage != howMany);
 		return values;
-    }
+    } public void updateTree(String selectedPath) {
+        if (tree != null) {
+            tree.updateTree(0); // Call updateTree method of the Tree object
+        }}
 
     @Override
     public void actionPerformed(ActionEvent evt) {
