@@ -125,6 +125,7 @@ Help - Shows a help window
 * Robin Spud - for being super sexy and helping me out.
 * Peter - Reference of his interface editor, basic design layout idea.
 * FileChooserDemo2.java - ImagePreview.java
+* Tom - Toms Cache Editor
 * Advocatus - Gradle Build + Updates
 * Snow Essence - Toms Suite Integration + Backup Options.
 * Thing1 - For his kind words & encouragement =)
